@@ -1,0 +1,42 @@
+name: ci
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: backend } }
+    env: { REQUIRE_FASTAPI: "1" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements-dev.txt
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: mypy
+      - run: pytest -q
+      - run: python ../tools/guards/check_no_asr.py
+      - run: python ../tools/guards/check_secrets.py
+  frontend:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: frontend } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "22" }
+      - name: Install (npm ci if lockfile exists; otherwise npm install, which is NOT reproducible)
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else echo "::warning::no lockfile; install not reproducible"; npm install; fi
+      - uses: actions/upload-artifact@v4
+        with: { name: package-lock, path: frontend/package-lock.json }
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test:core
+      - run: npm run test:guards
+      - run: npm test
+      - run: npm run build
+      - run: npm run check:bundle
+      - run: npm run check:boundaries

@@ -1,0 +1,4 @@
+# Runtime. Ranges are UNVERIFIED lower bounds (see docs/DEPENDENCIES.md); CI resolves and
+# uploads a lock file for the owner to commit. No ASR / speech-recognition packages (ADR-001).
+fastapi>=0.115
+uvicorn>=0.30

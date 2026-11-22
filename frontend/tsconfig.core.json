@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "lib": ["ES2022"], "types": [] },
+  "include": ["src/core/constants.ts", "src/core/modes.ts", "src/modes/youtube/YouTubePlayerAdapter.ts", "src/modes/authorized/*.ts"],
+  "exclude": ["src/**/*.test.ts"]
+}

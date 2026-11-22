@@ -1,0 +1,9 @@
+# Dev-only. NOT RUN in Phase 1 (no Docker in the verification sandbox). Binds loopback only.
+services:
+  backend:
+    build: ./backend
+    env_file: [.env]
+    ports: ["127.0.0.1:8000:8000"]
+  frontend:
+    build: ./frontend
+    ports: ["127.0.0.1:5173:5173"]
