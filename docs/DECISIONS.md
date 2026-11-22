@@ -1,7 +1,7 @@
 # TubeSomali — Decisions, Verification Log and Risk Register
 
-**Phase 0 · Revision 2 · reconciliation pass 1 · 2026-11-20 · DRAFT — awaiting owner approval.** No application code exists. Nothing here is a legal opinion.
-Companion documents: `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `UX_REQUIREMENTS.md`, `ACCEPTANCE_TESTS.md`, `GATES.md`, `ROADMAP.md`, `CONSISTENCY_AUDIT.md`, `PROGRESS_REPORT.md`, `PHASE1_PLAN.md`, `DUAL_AUDIO_SPIKE_PLAN.md`.
+**Phase 0 · Revision 2 · reconciliation pass 1 · 2026-11-20 · DRAFT — awaiting owner approval.** *(Pass 4, 2026-11-22: the owner's 13 Phase 0 decisions are applied — see §8.8–§8.12 and `OWNER_DECISIONS_PASS4_CHANGELOG.md`. Where §8.9 differs from §8.1/§8.2/§8.3, §8.9 is authoritative.)* No application code exists. Nothing here is a legal opinion.
+Companion documents: `OWNER_DECISIONS_PASS4_CHANGELOG.md`, `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `UX_REQUIREMENTS.md`, `ACCEPTANCE_TESTS.md`, `GATES.md`, `ROADMAP.md`, `CONSISTENCY_AUDIT.md`, `PROGRESS_REPORT.md`, `PHASE1_PLAN.md`, `DUAL_AUDIO_SPIKE_PLAN.md`.
 
 **Status vocabulary (owner-specified):** **DECIDED** = the owner has stated or approved it (source cited) · **PROPOSED** = architect proposal awaiting owner confirmation · **OPEN** = no owner information yet · **BLOCKED** = cannot progress until a named external prerequisite exists. *No item is marked DECIDED without a cited owner statement.*
 
@@ -12,6 +12,7 @@ Companion documents: `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `UX_REQUIREMENTS.md`,
 | 2026-11-20 rev 2 | Reframed to the two-mode video player vision (owner rev-2 brief). Facts F12–F22, ADR-013…019, Q8–Q10. |
 | 2026-11-20 rev 2 / reconciliation 1 | **Additive:** status vocabulary; §8 reconciliation (owner-directive log D-01…D-17, ADR status register, Q1–Q14 register, BLOCKED register); facts F23–F28; key findings K7–K9; ADR-020…024; §1 inspected list. **Changed (visible):** POC finding labels `A1–A12` → `P1–P12` (collided with roadmap amendments `A1–A6`); §0 "G19–G22" text extended to G24; F22 annotated (partially verified). **Preserved unchanged:** all other rev-2 text, including legacy "Accepted" labels (superseded by §8.1) and §7 question text (superseded by §8.2). |
 | 2026-11-21 rev 2 / reconciliation 2 | **Additive:** §8.6 re-verification log and §8.7 pass-2 note; K4 and §0 row annotated as resolved (spike now mandatory Phase 1b); G2/G3 cross-referenced in §8.1 rows 003/005; Appendix B gets an updated Somali summary. **Corrected (visible):** §1 state-check row (it said disk and Project were identical; after the pass-1 edits the Project copies were stale until synced on 2026-11-21). **Preserved unchanged:** everything else, including the old Appendix B text (marked superseded). |
+| 2026-11-22 rev 2 / owner decisions (pass 4) | **Additive:** §8.8 directive log D-18…D-30 (the owner's 13 decisions, cited); §8.9 status overlay (Q1–Q14 plus new Q15, Q16 and ADR changes); §8.10 commercial-licence consequences (NOT VERIFIED); §8.11 facts F29–F30 (GitHub Pages limits, re-read from the primary page via a summarizing fetch); §8.12 ADR-025 (phone test delivery) and ADR-026 (storage budget), both PROPOSED. **Visible pointers added** to the §8.2 and §8.5 headings and the header. **Preserved unchanged:** every earlier row, ADR text, directive D-01…D-17, Q1–Q14 text, and Appendices A and B. No status was changed in §8.1/§8.2 text — the overlay in §8.9 carries the new statuses. |
 
 **Evidence labels:** **[V]** verified this session against a named source · **[U]** unverified (handoff claim or general knowledge) · **[T]** tested by running code (**none exist yet**).
 Web pages were read through a fetch tool that returns summaries; any item that gates a release must be re-read in primary text at review time.
@@ -216,8 +217,11 @@ Adapters actually returning captions from a home connection; manual/auto distinc
 | 022 | Voice-preparation job model | **PROPOSED** | D-13 requires the UX states to be documented. |
 | 023 | Phase re-sequencing | **DECIDED** (order, D-10) / **PROPOSED** (Phase 2/3 split) | — |
 | 024 | Spike delivery over localhost | **PROPOSED** | Needs Q13 (adb/USB debugging availability). |
+| 025 | *(pass 4)* Phone test delivery via a separate static harness over HTTPS | **PROPOSED** | D-27; needs explicit owner authorization to create/publish anything; details in §8.12. |
+| 026 | *(pass 4)* Cache/storage budget default | **PROPOSED** | D-28; unapproved; Q14; details in §8.12. |
 
 ### 8.2 Owner-question register (Q1–Q14)
+*Pass-4 pointer: statuses below are the pass-1 statuses and are preserved as history; the current statuses are in §8.9.*
 | ID | Topic | Owner-provided information (cited) | Status | Blocks |
 |---|---|---|---|---|
 | Q1 | Personal/non-commercial vs commercial; model licences | Rev-2 §8: "Model licenses, commercial restrictions, memory usage, quality and latency must be verified before adoption." **Intent not stated.** | **OPEN** | Model adoption in Phases 4/5 (G5, G17). |
@@ -266,6 +270,7 @@ Adapters actually returning captions from a home connection; manual/auto distinc
 | D-17 | Authorized-media definition and recorded declaration (see Q3). | Rev-2 §1B, §4 |
 
 ### 8.5 Not decided by the owner (so not marked DECIDED anywhere)
+*Pass-4 pointer: Q1, Q4 (interim), Q6, Q7, Q9 (first device) and part of Q3/Q8 are now answered — see §8.9. The list below is the pass-1 text, preserved; items still undecided after pass 4 are listed in §8.9 under "Still not decided".*
 Commercial vs non-commercial intent (Q1) · backend host hardware and OS (Q2, Q13) · reviewers (Q4) · repository location (Q6) · installs/test environment (Q7) · device models (Q9) · transport security choice (Q11) · checkpoint pass rule (Q12) · storage budget (Q14) · declaration wording (Q3) · whether our own UI may call the YouTube player's documented `setVolume` (current stance, PROPOSED: no custom YouTube volume UI in v1; official controls only).
 
 ### 8.6 Re-verification log (reconciliation 2, 2026-11-21)
@@ -273,6 +278,80 @@ The facts added in pass 1 were re-read from their primary pages (fetch tool summ
 
 ### 8.7 Pass-2 note
 Pass 2 found no change of any owner directive (D-01…D-17) and changed no status in §8.1/§8.2. Unresolved items that need an owner decision are listed in `CONSISTENCY_AUDIT.md` §4 (U-01…U-06).
+
+## 8.8–8.12 Pass 4 — owner decisions applied (2026-11-22)
+*Source of every directive below: the owner's "Phase 0 Owner Decisions Reconciliation (Pass 4)" brief, decisions 1–13. Nothing here is an inference; where the brief leaves a point open it is listed as OPEN or PROPOSED, never DECIDED.*
+
+### 8.8 Owner-directive log, continued (D-18…D-30)
+| ID | Directive (paraphrased from the brief) | Source |
+|---|---|---|
+| D-18 | **Commercial intent:** the app may be commercial. Review licences, model restrictions, voice licences and deployment terms accordingly. **Do not assume commercial use is permitted until verified.** | Pass-4 §1 |
+| D-19 | **Media rights:** in Authorized Media mode the user must confirm ownership or authorization through an **explicit checkbox and confirmation before any processing** of the media. | Pass-4 §2 |
+| D-20 | **Translation review:** initially the **owner** reviews Somali translation quality. Do not claim external reviewers have been nominated. | Pass-4 §3 |
+| D-21 | **Repository:** `Soomaali211/TubeSomali`, branch `phase0-reconciliation`. | Pass-4 §4 |
+| D-22 | **Build/test environment:** **Android phone + GitHub Actions CI** is selected. Not to be described as configured or verified until tested. | Pass-4 §5 |
+| D-23 | **Subtitles:** translation only when supplied SRT/VTT or **supported** embedded subtitles exist. **No ASR, no transcription.** | Pass-4 §6 |
+| D-24 | **Devices:** the owner's current Android phone for initial validation; a second device if available; models and Android versions to be recorded when known. | Pass-4 §7 |
+| D-25 | **Transport:** no final choice. HTTPS is the preferred direction **for investigation** only. Document options, trade-offs, certificate/trust requirements, pairing security and fallback limits. **HTTP request signing does not encrypt subtitle text.** | Pass-4 §8 |
+| D-26 | **G24:** the owner decides the acceptance policy after reviewing the completed test plan. Document balanced and strict options. G24 stays a blocking gate for Phases 4 and 5. | Pass-4 §9 |
+| D-27 | **Phone test delivery:** recommend the simplest viable workflow; investigate a separate static harness deployed through GitHub Actions over HTTPS; main repo stays private; any public harness holds only isolated test code and synthetic fixtures. **No publishing or deployment without authorization.** | Pass-4 §10 |
+| D-28 | **Storage budget:** the owner wants a recommended default; propose one; leave unapproved. | Pass-4 §11 |
+| D-29 | **Phase split:** Phase 2 = media import and rights handling; Phase 3 = captions/subtitle pipeline. | Pass-4 §12 |
+| D-30 | **Sequencing:** Phases 2 and 3 may proceed if Phase 1b is delayed; Phases 4 and 5 stay blocked until G24 passes **with owner approval**. | Pass-4 §13 |
+
+### 8.9 Status overlay after pass 4 (authoritative over §8.1–§8.3 where they differ)
+| ID | Topic | Pass-4 status | Basis and what remains |
+|---|---|---|---|
+| Q1 | Commercial vs non-commercial | **DECIDED** (intent: may be commercial; D-18) · **NOT VERIFIED** (licence/terms eligibility of every model, voice, host and API) | Consequences in §8.10. G5 stays OPEN. |
+| Q2 | Where the backend/TTS runs | **PROPOSED** (PC/local host) — **now in tension** with D-22, which names a phone and CI but **no PC** | Tracked as Q16. |
+| Q3 | Authorized media definition and declaration | **DECIDED** (scope D-17; mechanism D-19: explicit checkbox **and** confirmation before processing) · **OPEN** (exact Somali wording; legal review) | G4, G20. Tests AT-IN-31…33 (new). |
+| Q4 | Reviewers | **DECIDED** (interim: owner reviews Somali **translation** quality; D-20) · **OPEN** (external reviewers: none nominated; who reviews **TTS** naturalness was not stated; G12 needs a native-reviewer rating) | G7 stays OPEN. No claim of independent review may be made. |
+| Q5 | Official-player caption-menu check | **OPEN** (unchanged) | — |
+| Q6 | Repository | **DECIDED** (D-21). Before the first Phase 0 commit the repository existed but was empty (observed on clone: no branches, no files). Branch convention for Phase 1 and later: **OPEN** | — |
+| Q7 | Where tests run | **DECIDED** (selection: Android phone + GitHub Actions CI; D-22) · **NOT VERIFIED** (no workflow exists; nothing has run). **G8 stays BLOCKED** until a workflow exists and has run; the CI runner cannot execute device tests (see ARCHITECTURE §14). | Phase 1 W9/W10. |
+| Q8 | No-subtitle videos | **DECIDED** (D-23) · **OPEN**: which embedded subtitle formats count as "supported", and whether the browser can read them without a backend (Q15) | G19 owner-confirmed; evidence pending (Phases 2/3). |
+| Q9 | Android devices | **DECIDED** (first device = owner's current phone; second "if available"; D-24; earlier owner rule D-11: minimum two physical devices for **release validation** — not weakened, see audit U-07) · **OPEN** (model, Android version, browser, who runs tests) | Phase 1b execution. |
+| Q10 | Early spike | **DECIDED** (mandatory Phase 1b) — unchanged | — |
+| Q11 | Transport security | **PROPOSED** (HTTPS = preferred direction **to investigate**; not approved; D-25). Options and trade-offs: ARCHITECTURE §11a | G23 cannot pass without a recorded decision. |
+| Q12 | G24 acceptance policy | **OPEN** (owner decides after reviewing the completed plan; D-26). Balanced and strict options: DUAL_AUDIO_SPIKE_PLAN §10. Mandatory-checkpoint status **DECIDED** | G24 blocks Phases 4/5. |
+| Q13 | Deployment and network environment | **OPEN**. D-22 does not mention a PC, router, or LAN — see Q16 | ADR-005, ADR-020, G10, G23. |
+| Q14 | Cache/storage budget | **PROPOSED** (default recommended in ADR-026; not approved; D-28) | UX §9 thresholds. |
+| **Q15** *(new)* | Which embedded subtitle formats/tracks are "supported" (e.g., text tracks in MP4/MKV/WebM) and where they are extracted (browser vs backend) | **OPEN** | G19; Phase 3 investigation. **NOT VERIFIED** that a browser can read embedded tracks. |
+| **Q16** *(new)* | Is there a PC or other always-on machine that can host the backend (and later TTS/translation models)? If not, how do Phases 4/5 run on a phone-only setup? | **OPEN** | ADR-005, ADR-020, G21, G23; Phases 1 (W10), 4, 5. |
+| ADR-016 | Rights declaration | **DECIDED** (scope + checkbox/confirmation before processing) · wording **OPEN** | — |
+| ADR-019 | Captions in Mode B | **DECIDED** (translation only from supplied/embedded subtitles; no ASR) · embedded support **OPEN** (Q15) | — |
+| ADR-020 | Backend connection security | **PROPOSED** — transport still **not decided**; "never an unauthenticated LAN backend" stays DECIDED (D-12) | — |
+| ADR-021 | Checkpoint | **DECIDED** (mandatory) · acceptance policy **OPEN** (Q12) | — |
+| ADR-023 | Phase sequencing | **DECIDED** (order D-10; Phase 2/3 split D-29; relaxed sequencing D-30). Former "PROPOSED" wording in §8.1 is superseded | — |
+| ADR-024 | Spike delivery over localhost | **PROPOSED** (needs a PC with USB debugging; see ADR-025 for the phone-only route) | — |
+| ADR-025 *(new)* | Phone test delivery via a separate static harness | **PROPOSED** (§8.12) | Needs explicit owner authorization to create/publish anything. |
+| ADR-026 *(new)* | Storage budget default | **PROPOSED** (§8.12), unapproved | — |
+**BLOCKED after pass 4 (additions to §8.3):** B1 is restated: the **selected** environment (phone + Actions) is **not configured** — blocked on a workflow file existing and on a first CI run (Phase 1, W9). B2 is restated: device evidence waits for device details (Q9) and a person to run tests. B6 *(new)*: Phase 4/5 start waits for **G24 passed with owner approval**. B5 is restated: commercial intent (D-18) means NC-licensed models cannot be adopted for a commercial product without separate permission.
+**Still not decided (after pass 4):** transport choice (Q11) · G24 acceptance policy (Q12) · storage budget approval (Q14) · declaration wording (Q3) · external reviewers and TTS reviewer (Q4) · device models/versions (Q9) · supported embedded subtitle formats (Q15) · backend host (Q2/Q13/Q16) · branch/commit workflow after Phase 0 (Q6) · approval to create or publish any test harness (ADR-025) · gate numbering G19–G24 (audit U-05).
+
+### 8.10 Commercial-intent consequences (D-18) — all **NOT VERIFIED** for commercial use
+| Item | What is verified (from §2) | Consequence |
+|---|---|---|
+| `Helsinki-NLP/opus-mt-en-cus` | Apache-2.0 on its model card (F10) | Licence text permits commercial use in principle; **quality (16.0 BLEU / 0.173 chrF, English→Somali only) and training-data terms are not verified** for a commercial product. |
+| NLLB-200-distilled-600M | CC-BY-NC 4.0 (F11) | **Non-commercial.** Cannot be adopted for a commercial product without separate permission. |
+| `facebook/mms-tts-som` | CC-BY-NC 4.0 via a mirror (TTS table) | **Non-commercial.** Same consequence; original-model licence also to be re-read. |
+| `somali_tts_model`, `StyleTTS2-Somali` | No licence stated | **Cannot be assumed usable** commercially (or at all) — no licence means no granted rights. |
+| `Hussein_tts`, `omi-tts` | Unverified [U] | Not usable until verified. |
+| Result | **No Somali TTS candidate has a verified commercially usable licence** (G5, G17). | Phase 5 may end with *no adoptable voice*; options for the owner then are: obtain permission, commission/own-train a voice with documented speaker consent, or release non-commercially. **None of these is chosen.** |
+| YouTube API Services | Policy facts F1–F6 concern mode restrictions | Whether a commercial/monetized app has extra YouTube API terms obligations is **NOT VERIFIED** — re-read at Phase 8. |
+| Hosting | GitHub Pages is not allowed as a free host for a commercial SaaS (F30); other free tiers' terms **not read** | Free hosting for a *commercial* product is **NOT VERIFIED**; the Pages harness (ADR-025) is a test page only. Phase 9 (G10) re-reads terms. |
+| Dependencies | Not yet enumerated | Phase 1 W1 licence check must flag copyleft/NC terms for commercial distribution. |
+
+### 8.11 Pass-4 facts (re-read this session, via summarizing fetch tools)
+| # | Fact | Source |
+|---|---|---|
+| F29 **[V]** | GitHub Pages: **GitHub Free and Free-for-organizations can publish only from public repositories**; Pro, Team, Enterprise can publish from private ones. Published sites ≤ 1 GB; deployments time out after 10 min; soft 100 GB/month bandwidth; soft 10 builds/hour (not for sites published by a custom GitHub Actions workflow). Whether the owner's account is on Free or a paid plan is **not known**. | https://docs.github.com/en/enterprise-cloud@latest/pages/getting-started-with-github-pages/what-is-github-pages · https://docs.github.com/pages/getting-started-with-github-pages/github-pages-limits |
+| F30 **[V]** | GitHub Pages "is not intended for or allowed to be used as a free web-hosting service" for an online business, e-commerce or commercial SaaS; sites must not handle sensitive transactions. The pages read did not state whether HTTPS is enforced (the "Secure site with HTTPS" article was **not** read) — so "Pages serves HTTPS" is **[U]** here. | same page |
+
+### 8.12 New ADRs (pass 4)
+**ADR-025 Phone test delivery via a separate static harness — PROPOSED (D-27).** *Recommendation (simplest viable for a phone + GitHub Actions workflow):* a **separate, public repository** (proposed name `tubesomali-spike-harness`; not created) containing only a static test page, a fixture-generation script and **synthetic fixtures** (generated tones, test patterns — no third-party or user media), plus a GitHub Actions workflow that publishes it to GitHub Pages; the phone opens the HTTPS URL in Chrome (secure context, F23), runs the AT-SP procedures, shows results on screen and lets the tester **copy/export a JSON record** to send back. The main `TubeSomali` repository stays **private** (D-27); a public harness is needed because Pages from a private repo is not available on the Free plan (F29, plan of the owner's account unknown). *Rules:* no application secrets, no user media, no backend, no shared code from the private repo except what the owner approves case by case; harness code is disposable. *Alternatives:* (a) USB port forwarding (ADR-024) — needs a PC and adb; (b) static LAN server — needs a PC; (c) another free static host — terms **not read**; (d) opening files from the phone's storage via `file://` — origin/secure-context behaviour **[U]**, fragile. *Open points:* HTTPS on Pages is **[U]** (F30); whether CI can generate fixtures (e.g., needs ffmpeg on the runner **[U]**) or small generated fixtures are committed; T2 (output recording) capture with a single phone is limited — see DUAL_AUDIO_SPIKE_PLAN §6/§11. **Nothing has been created, published or deployed; creating the repo, enabling Pages and publishing each need the owner's explicit authorization.**
+
+**ADR-026 Cache/storage budget default — PROPOSED (D-28), unapproved.** *Arithmetic (not measured):* uncompressed mono 16-bit speech audio is 32 kB/s at 16 kHz and 48 kB/s at 24 kHz, i.e. ≈ 115 MB and ≈ 173 MB per hour of audio; compressed storage (if an encoder is available in the browser **[U]**) would be an order of magnitude smaller; translation text is kilobytes. Model weights are separate (measured in Phases 4/5). *Proposed default:* **500 MB** phone cache cap for generated Somali voice tracks (≈ 2–4 hours of uncompressed audio), user-adjustable presets **250 MB / 500 MB / 1 GB / 2 GB**; **warn** when an estimated job exceeds the remaining budget or when free device storage after the job would be below max(1 GB, 2× the job); evict only with user consent (offer "delete the oldest unused voice tracks"); never evict the item being played or any item the user marked *keep*; the user's source video is not counted (it stays where the user keeps it, ADR-018). If a PC backend exists, give it a separate cache cap (proposal: 5 GB excluding model weights). *Trade-offs:* a larger cap means fewer regenerations (less CPU/battery) but uses scarce phone storage; a smaller cap increases regeneration. Real sizes, free-space APIs and eviction behaviour on the owner's phone are to be **measured** in Phases 5/9 (G18). **Owner confirmation required (Q14).**
 
 ## Appendix A — Audit of the existing caption POC (read, not run)
 *(Finding labels renamed `A1–A12` → `P1–P12` in reconciliation pass 1 to avoid colliding with roadmap amendments `A1–A6`; wording unchanged.)*
@@ -306,3 +385,9 @@ Disposition: moves to `backend/research/`, off in release (ADR-003, ADR-011).
 - Isku-xirka Android↔PC: **ma jiri doono backend aan lahayn xaqiijin** oo ku furan shabakadda (G23, D-12); isku-xirid QR/koodh hal-mar ah iyo token qalab walba leh.
 - Su'aalaha furan ee ugu muhiimsan: **Q6** (halka repo-gu yahay), **Q7** (installs/tijaabo), **Q9** (magacaabista taleefannada), **Q11** (ammaanka gudbinta), **Q13** (shabakadda/PC), iyo **Q1** (ganacsi mise ma ahan).
 - Wax tijaabo ah lama fulin: **152 tijaabo oo la qeexay, 0 la socodsiiyey**.
+
+### Appendix B-3 — Kooban Soomaali ah (Pass 4, 2026-11-22; ku dar, midka hore lama tirin)
+- Go'aamada 13-ka ah ee milkiilaha waa la dhaqan geliyay dukumentiyada (D-18…D-30). Wax koodh ah lama qorin, wax imtixaan ah lama fuliyey: **160 tijaabo oo la qeexay, dhammaantood NOT RUN**.
+- **DECIDED:** ujeeddada ganacsi waa suurtagal (laakiin ruqsadaha moodooyinka lama xaqiijin); sanduuq xaqiijin + xaqiijin cad ka hor marka warbaahinta la shaqeeyo; milkiilaha ayaa dib u eegaya tarjumaadda Soomaaliga (hadda); repo-ga `Soomaali211/TubeSomali`; taleefanka Android + GitHub Actions (lama dhisin weli); tarjumaad kaliya marka SRT/VTT la bixiyo; Wareegga 2 = soo dejinta warbaahinta, Wareegga 3 = captions; Wareegyada 2–3 way socon karaan haddii 1b dib dhaco.
+- **PROPOSED / OPEN:** habka ammaanka isku-xirka (HTTPS = hage lagu baaro kaliya); xeerka G24 (Balanced vs Strict) — milkiilaha ayaa go'aamin doona; miisaaniyadda kaydinta (500 MB oo la soo jeediyey); goobta tijaabada taleefanka (ADR-025); weydiimaha cusub Q15 (qaabka subtitles-ka la taageeray) iyo Q16 (ma jiraa PC?).
+- G24 weli waxay xannibaysaa Wareegyada 4 iyo 5 ilaa ay ku gudbaan oggolaanshaha milkiilaha.

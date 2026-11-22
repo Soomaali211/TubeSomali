@@ -1,6 +1,6 @@
 # TubeSomali — Dual-Audio Feasibility Test Plan (Phase 1b)
 
-**Version:** reconciliation pass 1 · 2026-11-20 · DRAFT · **Nothing in this plan has been executed.** Every result cell below is empty on purpose.
+**Version:** reconciliation pass 1 · 2026-11-20 · DRAFT · *(pass 4, 2026-11-22: owner decisions D-24…D-27, D-30 annotated; §10a added)* · **Nothing in this plan has been executed.** Every result cell below is empty on purpose.
 **Owner directives implemented:** D-05 (Web Audio GainNode or another verified mixing architecture; evaluate Media3; don't assume track selection plays two tracks), D-11 (mandatory checkpoint before Phase 4/5; investigate the listed items; compare approaches; document actual findings; start on the owner's Android device; no multi-device claim before two devices), D-14 (no PASS without execution and environment record).
 **Gate:** G24 (blocks Phases 4 and 5). **Tests:** AT-SP-01…14 (ACCEPTANCE_TESTS §J). **Decision it feeds:** ADR-014 (BLOCKED until this report exists), tolerance proposals for ADR-015.
 
@@ -14,10 +14,10 @@ Can TubeSomali, on real Android devices, play **original audio** and a **Somali 
 ## 3. Preconditions
 | Need | Status |
 |---|---|
-| Phase 1 tooling/repo exists (Q6, G8) | **OPEN** |
-| An Android device the owner can use for testing (Q9: model, Android version, browser) | **OPEN** (owner has "an available device"; details not given) |
-| Delivery of the test page to the phone (Q13): USB port forwarding preferred (F25: phone opens `localhost:<port>`, a secure context, no LAN exposure; prerequisite: remote debugging set up) | **OPEN** |
-| Pass rule for the checkpoint (Q12) | **OPEN** (proposal in §10) |
+| Phase 1 tooling/repo exists (Q6, G8) | **OPEN** *(pass 4: repo decided, D-21; CI selected not configured, G8 BLOCKED)* |
+| An Android device the owner can use for testing (Q9: model, Android version, browser) | **OPEN** (owner has "an available device"; details not given) *(pass 4: first device = the owner's current phone, DECIDED D-24; a second "if available"; model/Android version/browser still to be recorded)* |
+| Delivery of the test page to the phone (Q13): USB port forwarding preferred (F25: phone opens `localhost:<port>`, a secure context, no LAN exposure; prerequisite: remote debugging set up) | **OPEN** *(pass 4: USB forwarding needs a PC, which the owner's declared environment does not list; the recommended phone-only route is the separate static harness over HTTPS, ADR-025 PROPOSED — not created, not published; §11)* |
+| Pass rule for the checkpoint (Q12) | **OPEN** (proposal in §10) *(pass 4: the owner decides after reviewing this completed plan; balanced and strict options in §10a; D-26)* |
 | A way to capture output audio for T2 analysis (see §6) | **OPEN** — to be chosen with the owner |
 
 ## 4. Approaches under test
@@ -95,6 +95,7 @@ Common setup for all: record the environment (§8); fresh page load; user gestur
 | R9 Fullscreen preserves sync/state (AT-SP-12) | | | | |
 | R10 Resource use acceptable (AT-SP-13) | | | | |
 Cell values allowed: *Meets (measured: …)* · *Partially (measured: …)* · *Fails (measured: …)* · *Not measured*.
+**Reporting rule (pass 4, D-26):** each of **R1–R10 is reported individually** for each approach. Failures and *Not measured* cells are shown, never merged into an overall score and never omitted. *(The owner's brief refers to "R1–R10"; this table is the only R1–R10 list in the project. **Owner to confirm** it is the intended list — Q12.)*
 
 ## 10. Decision rules and pass rule (PROPOSED — Q12)
 1. **Recommendation logic:** B meets R1–R9 → recommend B. Only A meets → recommend A (A′ if speed/pitch is the sole shortfall). Both partial → owner decision on trade-offs. Neither meets → evaluate C or change scope; **STOP**.
@@ -102,11 +103,25 @@ Cell values allowed: *Meets (measured: …)* · *Partially (measured: …)* · *
 3. **Multi-device validation:** claimed only after the same protocol has been run on **two physical devices**; required before release (G11).
 4. Tolerances (drift, click, stale-audio window, resync time) are **proposed from the data** in the report and become binding only on owner approval.
 
+### 10a. Acceptance-policy options for G24 (**NOT approved** — the owner decides after reviewing this plan; D-26)
+Rules 1–3 above are the architect's earlier proposal; they are one of the two options below, not an approval. **G24 remains a blocking gate for Phases 4 and 5 under either option**, and **no multi-device claim** is made before two physical devices have been tested.
+| | **Option Balanced** (matches the earlier §10 proposal) | **Option Strict** |
+|---|---|---|
+| Devices | ≥ 1 physical device for the checkpoint; recorded as *single-device feasibility* | ≥ 1 physical device for the checkpoint (same wording); release still needs two |
+| Required result for the **recommended** approach | **No *Fails*** on R1, R3, R5, R6; R2, R4, R7–R10 may be *Partially* if each has a written mitigation the owner accepts | **All of R1–R10 *Meets*** with owner-approved tolerances |
+| *Not measured* cell | Allowed only for R7–R10, with the reason stated and a plan for Phase 6; not allowed for R1–R6 | Not allowed |
+| If it is not met | Owner decides: accept with mitigations, choose another approach (A′, C), change scope, or stop | Phases 4/5 stay locked; owner decides: redesign, approach C, scope change, or stop |
+| Risk | May let Phase 4/5 investment proceed with known weaknesses (e.g., pitch-shifted speed, background-audio limits) | May block the project on requirements that depend on one phone's behaviour (e.g., Bluetooth latency, background audio) and could be unreachable |
+| Counts as G11 evidence? | **No** (AT-SP results never count toward G11/G15/G16) | **No** |
+In both options R1–R10 are reported individually (§9) and the report states which option the owner selected before any pass/fail is recorded. *(An owner-defined hybrid — e.g., strict on R1–R6 and balanced on R7–R10 — is possible; not proposed here.)*
+
 ## 11. Delivery, safety, privacy
 - Serve the test page via **USB port forwarding** (phone opens `localhost:<port>`; secure context; no LAN exposure; F23/F25). Fallback (ADR-024): a static file server on the LAN for the session only, clearly not the backend, stopped afterwards. No backend or credentials are involved.
+- **Pass 4 (D-27, ADR-025 PROPOSED):** for a phone-only setup the simplest viable route is a **separate public static harness repository** (isolated test code + synthetic fixtures only; no application secrets, user media or private documents) published over HTTPS through GitHub Actions/Pages; the main repository stays **private**. GitHub Pages from a *private* repository is not available on the Free plan (F29), hence the separate public repo; whether HTTPS is enforced on Pages was **not verified** (F30). Results are shown on screen and exported as JSON by the tester. **Nothing has been created, published or deployed; each of those steps needs the owner's explicit authorization.**
+- **Single-phone measurement limit (pass 4):** with one phone and no PC, tier **T2** (recording the output) may be limited to Android internal-audio capture **[U]** or an external recording device. If only **T1** in-page logging is possible, results must be labelled **software-level only** and must **not** be described as acoustic sync or real Bluetooth latency.
 - Use fixtures only; no personal media; no data leaves the devices.
 
 ## 12. Outputs and stop conditions
 - **Outputs:** `docs/spike/PHASE_1B_REPORT.md` (filled §8/§9 tables, narrative, anomalies), raw logs and recordings stored outside Git (referenced by name/hash), recommended ADR-014 wording, proposed tolerances.
 - **Stop conditions:** (a) no approach meets the rule → STOP and report; (b) device unavailable → report BLOCKED (B2), do not start Phase 4/5; (c) any result that contradicts a gate assumption is reported immediately.
-- **After delivery:** STOP and wait for owner approval; Phase 4/5 remain locked until G24 passes.
+- **After delivery:** STOP and wait for owner approval; Phase 4/5 remain locked until G24 passes **with owner approval** (D-30). Phases 2–3 may proceed if this phase is delayed (D-30). **Phase 1b has not started; no test in this plan has been run.**

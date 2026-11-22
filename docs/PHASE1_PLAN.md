@@ -1,6 +1,6 @@
 # TubeSomali — Phase 1 Implementation Plan (Repository scaffold)
 
-**Version:** reconciliation pass 1 · 2026-11-20 · DRAFT · **No Phase 1 code has been written.** This plan is for owner approval; commands named here are *intended* and untested.
+**Version:** reconciliation pass 1 · 2026-11-20 · DRAFT · *(pass 4, 2026-11-22: statuses annotated, see §9)* · **No Phase 1 code has been written.** This plan is for owner approval; commands named here are *intended* and untested.
 
 ## 1. Goal and non-goals
 **Goal:** a clean, tested, boundary-enforcing scaffold on which every later phase builds — with the backend safe-by-default (G23) and the YouTube/Authorized separation enforced by tooling from day one.
@@ -10,10 +10,10 @@
 | Needed | Why | Status |
 |---|---|---|
 | Owner approval of Phase 0 documents | Process rule | OPEN |
-| **Q6** repository location / branch conventions | Where code goes; "preserve existing work" | OPEN |
-| **Q7** installs allowed (new chat) or tests run on owner's machine/CI | Cannot install or test in this sandbox (G8 BLOCKED) | OPEN |
-| **Q11** transport choice | Only affects the *later* pairing implementation; Phase 1 builds the default-deny skeleton regardless | PROPOSED |
-| **Q2/Q13** host OS and network | Run docs (Docker vs plain), LAN-mode tests | PROPOSED / OPEN |
+| **Q6** repository location / branch conventions | Where code goes; "preserve existing work" | OPEN → *(pass 4)* **DECIDED**: `Soomaali211/TubeSomali` (D-21); branch convention for Phase 1 still OPEN |
+| **Q7** installs allowed (new chat) or tests run on owner's machine/CI | Cannot install or test in this sandbox (G8 BLOCKED) | OPEN → *(pass 4)* **DECIDED (selection)**: Android phone + GitHub Actions CI (D-22); **not configured, not verified**; G8 stays BLOCKED |
+| **Q11** transport choice | Only affects the *later* pairing implementation; Phase 1 builds the default-deny skeleton regardless | PROPOSED *(pass 4: HTTPS = direction to investigate only, not approved; ARCHITECTURE §11a)* |
+| **Q2/Q13** host OS and network | Run docs (Docker vs plain), LAN-mode tests | PROPOSED / OPEN *(pass 4: D-22 names a phone and CI but no PC — Q16 asks whether a PC exists)* |
 
 ## 3. Target repository layout (proposed)
 ```
@@ -82,3 +82,11 @@ Backend: `pytest`, `ruff check`, `mypy`. Frontend: lint, type-check, unit tests,
 
 ## 8. Hand-off to Phase 1b
 Phase 1b needs: a runnable frontend toolchain, a way to serve the test page to the phone (USB port forwarding, ADR-024), and the owner's device details (Q9). Phase 1 provides the toolchain only; no spike code is written in Phase 1.
+
+## 9. Pass-4 updates (2026-11-22) — **plan only; Phase 1 has not started**
+- **CI is GitHub Actions (D-22).** W9 becomes: create a workflow that runs lint, type-check, unit tests and the guard scripts for both halves, and report the **real run output**. Until a run exists the environment is *selected, not verified*. **[U]** runner availability and free-plan minutes for the owner's account (not checked).
+- **Device tests cannot run in CI.** All 📱 tests stay manual on the owner's phone; Phase 1 must not claim otherwise.
+- **W10 (Docker/dev run):** its text assumes the owner runs it on a machine. D-22 lists no PC. Q16 decides whether W10 targets a PC at all; if there is none, W10 is limited to CI and documentation, and the backend-on-phone-network scenarios (AT-NET with a physical phone over LAN) stay NOT RUN/BLOCKED.
+- **W1 licence check** must now flag licences that are unsuitable for a **commercial** product (D-18) — e.g., non-commercial or strong-copyleft terms.
+- **Out of Phase 1 (unchanged):** the test harness (ADR-025) belongs to Phase 1b and needs separate owner authorization; no harness repository is created in Phase 1; the rights checkbox/confirmation UI (D-19) belongs to Phase 2; storage-budget UI to Phases 5/7.
+- **Definition of done is unchanged.** Phase 1 remains **unstarted** and waits for owner approval ("NEXT").

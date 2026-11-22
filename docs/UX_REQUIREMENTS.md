@@ -88,3 +88,9 @@ Accessibility: every state change is announced; progress bars have accessible na
 - **Offline:** Library, player, captions and already-prepared voice work with no PC; actions needing the PC are disabled with an explanation (not hidden).
 - **Forget this PC / unpair:** removes the stored credential on the phone and tells the user how to revoke it on the PC.
 - **Privacy note shown at pairing:** "Qoraalka oo keliya ayaa loo diraa kombuyuutarka; muuqaalka ma baxo taleefanka" [draft; *only the text is sent to the computer; the video never leaves the phone*].
+
+## 11. Pass-4 clarifications (2026-11-22; no change to approved scope)
+- **Rights declaration (D-19, screen 2):** the step has an **unticked** checkbox *and* a separate confirmation action; nothing is processed before confirmation; wording is a Somali **draft needing native and legal review** (Q3). Tests AT-IN-31…33.
+- **No subtitles (D-23):** when an item has no supplied SRT/VTT and no supported embedded subtitles, translation and voice preparation are unavailable and the screen says (in Somali) that subtitles must be supplied. No transcription is offered. Test AT-IN-34.
+- **Storage thresholds (§9):** the numbers used by the storage warning come from the owner-approved budget (Q14); a **proposed**, unapproved default is in DECISIONS §8.12 (ADR-026).
+- **Insecure-transport notice (D-25):** if an HTTP fallback is ever offered, a Somali notice must say subtitle text is not encrypted (AT-NET-15).

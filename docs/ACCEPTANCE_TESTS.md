@@ -4,6 +4,8 @@
 
 *Reconciliation 1 is additive:* sections H (AT-NET), I (AT-PR), J (AT-SP) and explicit AT-SEC-01…12 were added; AT-IN-11…25 moved from Phase 2 to Phase 3 (ROADMAP ADR-023, proposed); the measurement rule now names Phase 1b. **All original IDs AT-DA-01…10, AT-SY-01…09, AT-CC-01…04, AT-FS-01…04, AT-YT-01…09, AT-IN-*, AT-CAP-*, AT-TR-*, AT-TTS-* are preserved with unchanged wording.**
 
+*Pass 4 (2026-11-22) is additive:* AT-IN-31…34, AT-NET-15 and section K (AT-ENV-01…03) were added for owner decisions D-19, D-22, D-23, D-25, D-27; **no existing ID or wording changed.** All 160 tests are **NOT RUN**.
+
 **Status legend:** NOT RUN · PASS · FAIL · BLOCKED (cannot be executed until a named prerequisite exists; e.g., device or installs). A test that is merely waiting for its phase is **NOT RUN**, not BLOCKED.
 
 ## 0. Conventions
@@ -141,3 +143,15 @@ All 📱, first on the owner's available Android device; each run records the en
 | AT-SP-12 | **Fullscreen** enter/exit (container) while playing | Sync and state preserved. |
 | AT-SP-13 | **Two simultaneous media elements** (video + audio) on the device | Concurrency behavior, start-up sync, CPU/memory observations. |
 | AT-SP-14 | **Approach comparison and recommendation** | Filled comparison table for A / B (/ A′ / C if reached), measured data only, recommendation and proposed tolerances for owner approval. |
+
+## K. Pass-4 additions (owner decisions D-19, D-22, D-23, D-25, D-27) *(all NOT RUN)*
+| ID | Test | Expected | Phase |
+|---|---|---|---|
+| AT-IN-31 | Authorized Media: import a local file, leave the ownership/authorization **checkbox unticked**, try to continue | Cannot continue; the media is not processed (no translation, TTS or backend job can be started for it) | 2 |
+| AT-IN-32 | Open the declaration step | The checkbox is **not pre-ticked**; an explicit separate **confirmation** action is required after ticking; text is shown in Somali (draft wording, Q3); confirmation stored locally per item (timestamp, file name, hash) and deletable | 2 |
+| AT-IN-33 | Network/log inspection from file selection until confirmation | **No** processing request, no upload and no backend call occurs before confirmation; after confirmation, only subtitle text — never the media file — may be sent (ADR-018) | 2 |
+| AT-IN-34 | Authorized item with **no** supplied SRT/VTT and no supported embedded subtitles | Translation/voice actions are unavailable with a Somali explanation that subtitles must be supplied; **no ASR/transcription path exists or is offered** (also AT-CAP-13) | 3 |
+| AT-NET-15 | If an HTTP-with-signing fallback exists (T2, ARCHITECTURE §11a): enable it | An opt-in screen states in Somali that subtitle text is **not encrypted**; it is off by default; if no such fallback exists the test is recorded as *not applicable* with the reason (not PASS) | 1/8 |
+| AT-ENV-01 | A push triggers the GitHub Actions workflow | The workflow runs lint, type-check, unit tests and guard scripts for both halves; the run log (URL or pasted output) is recorded. **Until a run exists: NOT RUN** | 1 |
+| AT-ENV-02 📱 | The owner's phone opens the test harness over HTTPS | The page loads in a secure context; audio context can start after a user gesture; environment record filled. **Requires an authorized harness deployment** | 1b |
+| AT-ENV-03 | Inspect the public harness repository and its published files | Contains **only** isolated test code and synthetic fixtures — no application secrets, user media, private documents, tokens or code copied from the private repository without approval; secrets scan clean | 1b |

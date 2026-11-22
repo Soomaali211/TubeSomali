@@ -1,6 +1,6 @@
 # TubeSomali — Roadmap
 
-**Revision 2 · reconciliation pass 1 · 2026-11-20 · DRAFT.** Phase order and titles follow the owner's Final Reconciliation brief (D-10). Gates are defined in `GATES.md`; tests in `ACCEPTANCE_TESTS.md`; decisions in `DECISIONS.md`.
+**Revision 2 · reconciliation pass 1 · 2026-11-20 · DRAFT.** *(Pass 4, 2026-11-22: owner decisions D-18…D-30 applied as visible annotations; see §7 and `OWNER_DECISIONS_PASS4_CHANGELOG.md`.)* Phase order and titles follow the owner's Final Reconciliation brief (D-10). Gates are defined in `GATES.md`; tests in `ACCEPTANCE_TESTS.md`; decisions in `DECISIONS.md`.
 **Rule for every phase:** code + tests + docs → run everything → report exact commands/output → update the gate register → **STOP and wait for "NEXT"**. Nothing is called working without a test result and a recorded environment.
 
 ### Revision history
@@ -9,6 +9,7 @@
 | 2026-11-20 rev 2 | Phases per owner's rev-2 list; amendments A1–A6. |
 | 2026-11-20 rev 2 / reconciliation 1 | **Re-sequenced to the owner's order** (Phase 1b now between 1 and 2 and **mandatory**; Phase 2 = authorized media import; Phase 3 = captions pipeline); phase titles aligned; every phase now has **Depends on** and **Stop condition**; Phase 1 gains backend access-control skeleton (G23); Phase 5 gains voice-preparation job model; amendment A5 marked ADOPTED; POC defect labels now P1–P12; dependency map added. **No deliverable removed** — content that moved is listed in §0. |
 | 2026-11-21 rev 2 / reconciliation 2 | Phase 0 deliverables now complete on disk (`CONSISTENCY_AUDIT.md`, `PROGRESS_REPORT.md` added); Phase 0 "Done in this pass" wording made precise; no phase, order, dependency or stop condition changed. |
+| 2026-11-22 rev 2 / owner decisions (pass 4) | **Annotations + new §7.** Phase 2/3 content split now **DECIDED** (D-29); relaxed sequencing for Phases 2–3 now **DECIDED** (D-30); Phases 4/5 stay blocked until **G24 passes with owner approval**; Q6/Q7 prerequisites marked answered (selection only — nothing configured); Phase 1b delivery notes ADR-025; Phase 2 gains the rights checkbox/confirmation (D-19, AT-IN-31…33); Phase 3 gains AT-IN-34 and the embedded-format investigation (Q15). **No phase added, removed or reordered; no dependency or stop condition removed.** |
 
 ## 0. What moved, and amendments
 
@@ -18,7 +19,7 @@
 | **0** Documentation reconciliation and approval | 0 Product vision, decisions, policy research, architecture, gate register | Retitled; content retained and extended. |
 | **1** Repository scaffold | 1 Scaffold, app modes, structure, tests, docs | Retained; + backend access-control skeleton (G23), Q6/Q7 prerequisites. |
 | **1b** Mandatory dual-audio feasibility checkpoint | 1b *optional* spike (A5) | **Now mandatory** (D-11); expanded scope per AT-SP-01…14. |
-| **2** Authorized media import | 2 Media import, SRT/VTT, subtitle editing/export, safe URL validation | Split: media import, rights declaration, safe URL validation, format matrix stay in Phase 2; SRT/VTT parsing/editing/export move to Phase 3. **PROPOSED (ADR-023)** — owner to confirm. |
+| **2** Authorized media import | 2 Media import, SRT/VTT, subtitle editing/export, safe URL validation | Split: media import, rights declaration, safe URL validation, format matrix stay in Phase 2; SRT/VTT parsing/editing/export move to Phase 3. **PROPOSED (ADR-023)** — owner to confirm. *(Pass 4: **DECIDED**, D-29.)* |
 | **3** Captions pipeline | 3 Caption providers (interface, mock, research-only) | + SRT/VTT parse/normalize/edit/export and embedded-subtitle detection from rev-2 Phase 2. |
 | **4** Somali translation | 4 Somali translation pipeline, editing, evaluation, licence verification | Retitled; content retained. **Blocked until G24 passes.** |
 | **5** Somali TTS | 5 Somali TTS models, licence verification, voices and QA | Retitled; + voice-preparation job model (ADR-022). **Blocked until G24 passes.** |
@@ -44,11 +45,11 @@
 | Prerequisite | Status |
 |---|---|
 | Owner approval of Phase 0 documents | **OPEN** (this deliverable) |
-| **Q6** repository location | **OPEN** |
-| **Q7** installs / where tests run (G8) | **OPEN** — **BLOCKED in this sandbox** |
-| **Q11** transport/pairing design confirmation | **PROPOSED** (needed to finish the backend skeleton; the skeleton can start with default-deny + loopback regardless) |
-| **Q2/Q13** backend host and network environment | PROPOSED / OPEN |
-| **Q9** first Android device (needed for 1b, not for 1) | OPEN (nomination) |
+| **Q6** repository location | **OPEN** → *(pass 4)* **DECIDED**: `Soomaali211/TubeSomali` (D-21); Phase 1+ branch convention OPEN |
+| **Q7** installs / where tests run (G8) | **OPEN** — **BLOCKED in this sandbox** → *(pass 4)* **DECIDED (selection)**: Android phone + GitHub Actions CI (D-22); **not configured or verified**, G8 stays BLOCKED |
+| **Q11** transport/pairing design confirmation | **PROPOSED** *(pass 4: HTTPS = direction to investigate only; not approved, D-25)* (needed to finish the backend skeleton; the skeleton can start with default-deny + loopback regardless) |
+| **Q2/Q13** backend host and network environment | PROPOSED / OPEN *(pass 4: D-22 names a phone and CI but no PC — new Q16)* |
+| **Q9** first Android device (needed for 1b, not for 1) | OPEN (nomination) *(pass 4: first device = owner's current phone, DECIDED D-24; model/version still to be recorded)* |
 
 ## 2. Phases (in execution order)
 
@@ -56,6 +57,7 @@
 - **Deliverables:** `DECISIONS`, `ROADMAP`, `GATES`, `PRODUCT_SPEC`, `ARCHITECTURE`, `UX_REQUIREMENTS`, `ACCEPTANCE_TESTS`, plus `CONSISTENCY_AUDIT`, `PROGRESS_REPORT`, `PHASE1_PLAN`, `DUAL_AUDIO_SPIKE_PLAN`.
 - **Done in this pass:** documents reconciled; documentation cross-reference script (`doc_audit.py`, scratch, not application code) run in pass 1 (before/after) and pass 2 (before/after), outputs quoted in `CONSISTENCY_AUDIT.md`; Phase 0 completion calculation in `PROGRESS_REPORT.md` (documentation checks are **not** application tests).
 - **Not done:** owner approval; any application test; any device test; POC execution.
+- **Pass 4 (2026-11-22):** owner decisions applied (`OWNER_DECISIONS_PASS4_CHANGELOG.md`); audit and progress report updated. Still documentation only.
 - **Depends on:** — · **Stop condition:** owner approves (or amends) the documents and answers the blocking questions.
 
 ### Phase 1 — Repository scaffold
@@ -63,38 +65,39 @@
 - **Boundary enforcement from day one:** ESLint restricted-imports rule, bundle test skeleton (AT-YT-03), `YOUTUBE_MODE_AUDIO_ALLOWED=false` test, no-ASR dependency scan (AT-CAP-13), secrets scan.
 - **First step:** check current stable versions/licences of each dependency and pin them. Full plan: `PHASE1_PLAN.md`.
 - **Tests:** pytest + Vitest smoke; ruff/mypy/eslint/tsc; AT-NET-01…03, 06, 07, 10 at unit/integration level (loopback). **No** models, no caption extraction, no audio.
-- **Depends on:** Phase 0 approval; Q6; Q7 (or tests run on the owner's machine). · **Stop condition:** all commands pass with output reported, or failures reported; STOP. Gates touched: G8, G23 (partially).
+- **Depends on:** Phase 0 approval; Q6 *(DECIDED, D-21)*; Q7 *(selected: phone + GitHub Actions; not configured — D-22)*. · **Stop condition:** all commands pass with output reported, or failures reported; STOP. Gates touched: G8, G23 (partially).
 
 ### Phase 1b — Mandatory dual-audio feasibility checkpoint
 - **Build/measure:** minimal player + `AudioMixer` with two independent gains, master gain/headroom, smoothing; generated Somali stand-in audio (no TTS, no translation); approaches **A** (per-cue scheduling), **B** (pre-rendered track on a media element), optional **A′**, **C only if A and B fail**; measurements AT-SP-01…14; full protocol in `DUAL_AUDIO_SPIKE_PLAN.md`.
 - **Order of testing:** the owner's available Android device first; **no multi-device claim until two physical devices have been tested**.
 - **Output:** measurements report with environment records; recommendation (A / B / A′ / C / none); proposed tolerances for owner approval; format matrix start (G22).
-- **Depends on:** Phase 1 (tooling, repo); Q9 (first device); Q13 (how the page reaches the phone: USB port forwarding preferred, ADR-024). · **Gate:** **G24**.
+- **Depends on:** Phase 1 (tooling, repo); Q9 (first device); Q13 (how the page reaches the phone: USB port forwarding preferred, ADR-024 — *pass 4: for a phone-only setup the recommended route is a separate static harness over HTTPS, ADR-025 PROPOSED; nothing created or published*). · **Gate:** **G24**.
 - **Stop condition:** report delivered **and** owner approves recommendation + tolerances. **If no approach meets owner-approved requirements on the first device → STOP; do not start Phases 4/5; report options (C, redesign, scope change).**
-- **Sequencing rule (PROPOSED):** Phases 2–3 do not technically depend on 1b; if device access is delayed the owner may authorize them to proceed while 1b waits. **Phases 4 and 5 may not start until G24 is passed.**
+- **Sequencing rule (DECIDED — D-30; was PROPOSED):** Phases 2–3 do not technically depend on 1b; if device access is delayed the owner may authorize them to proceed while 1b waits. **Phases 4 and 5 may not start until G24 is passed.**
 
 ### Phase 2 — Authorized media import
 - **Build:** URL parser/validator for YouTube links (watch, youtu.be, shorts, embed, m.; reject non-YouTube hosts and tricks; canonical rebuild); **local media import** (object URL, **no upload**) with format check/messages; **rights declaration flow** (G4, G20; wording per Q3); media library skeleton (IndexedDB); format matrix (G22) started; Somali UI for these screens.
+- **Rights gate (D-19):** before **any** processing of a media item the user must tick an explicit ownership/authorization checkbox **and** confirm; unchecked ⇒ nothing is processed. **Tests:** AT-IN-31…33. Wording remains OPEN (Q3).
 - **Tests:** AT-IN-01…10, AT-IN-26…30 (including "no upload" network test and declaration required/deletable).
-- **Depends on:** Phase 1; (1b by sequencing rule). · **Stop condition:** tests pass and results reported.
+- **Depends on:** Phase 1; (1b by sequencing rule — *pass 4, D-30: Phase 2 may proceed if Phase 1b is delayed*). Phase 2 content fixed by D-29: **media import and rights handling**. · **Stop condition:** tests pass and results reported.
 
 ### Phase 3 — Captions pipeline
 - **Build:** SRT/VTT parsers → `Segment`; exporters; upload limits and safe parsing; subtitle editor (list, edit, restore original); embedded-subtitle detection investigation (G19); `CaptionProvider` ABC; mock provider; error mapping; diagnostics script; research adapter under `backend/research/` (default candidate `youtube-transcript-api`), unregistered in release; POC defects **P1–P10** closed or explicitly waived (G9).
 - **Rules:** YouTube retrieval stays disabled until G14 clears (D-03); no scraping bypasses; live checks only on the owner's machine with an explicit research flag.
-- **Tests:** AT-IN-11…25, AT-CAP-01…14, AT-YT-05, AT-YT-09.
-- **Depends on:** Phase 2. · **Stop condition:** mocked suite green; live-test results or an explicit "not run".
+- **Tests:** AT-IN-11…25, AT-IN-34, AT-CAP-01…14, AT-YT-05, AT-YT-09. *(Pass 4: translation only from supplied SRT/VTT or **supported** embedded subtitles, no ASR — D-23; which embedded formats are supported is Q15, to be investigated here and not assumed.)*
+- **Depends on:** Phase 2 (*pass 4, D-30: may proceed if Phase 1b is delayed; D-29: this phase owns the captions/subtitle pipeline*). · **Stop condition:** mocked suite green; live-test results or an explicit "not run".
 
 ### Phase 4 — Somali translation
 - **Build:** `TranslationPipeline`, batching/context, protection of numbers/names/acronyms, per-cue retranslate/edit/restore, whole-track translate with cancel/progress; model cache dir, disk-space warning, explicit download action; source-language policy (A3).
 - **First step:** re-read model cards; determine the target-language token **by test**; record real Somali samples; check any second model's licence against Q1.
 - **Evaluation:** benchmark template with empty cells; native reviewers (G7). **Tests:** AT-TR-01…11. First phone→backend feature use: run AT-NET-04, 05, 09, 13, 14 on a physical phone (G23).
-- **Depends on:** **G24 passed**; Phase 3 (segments); Q1; Q4 for quality claims; Q11 decided for any phone→backend use. · **Stop condition:** measured results or a blocker report; no model adopted on unverified claims.
+- **Depends on:** **G24 passed *with owner approval* (D-30)**; Phase 3 (segments); Q1; Q4 for quality claims; Q11 decided for any phone→backend use. · **Stop condition:** measured results or a blocker report; no model adopted on unverified claims.
 
 ### Phase 5 — Somali TTS
 - **Build:** `TTSAdapter`, **voice registry**, evaluation CLI (fixed Somali set), seed control, chunking, duration metadata; **voice-preparation job model (ADR-022): cancel, retry, resume, per-cue cache, storage estimate** (UI later in Phase 7); pre-render speed measurement on the chosen host (G21).
 - **Candidates:** MMS (NC), `somali_tts_model`, StyleTTS2-Somali, `Hussein_tts`, `omi-tts` — each re-read on the day; remote code reviewed/pinned/isolated.
 - **Tests:** AT-TTS-01…11, AT-PR-04…08 (backend side).
-- **Depends on:** **G24 passed**; Q1; Q4; Q2 (host). · **Stop condition:** measured comparison or blocker report; no voice exposed unless it passes (G17).
+- **Depends on:** **G24 passed *with owner approval* (D-30)**; Q1 *(commercial: DECISIONS §8.10 — no Somali TTS candidate is cleared for commercial use)*; Q4 *(interim: owner)*; Q2/Q16 (host). · **Stop condition:** measured comparison or blocker report; no voice exposed unless it passes (G17).
 
 ### Phase 6 — Audio mixer and synchronization
 - **Build:** production `AudioMixer`, `AudioScheduler` (approach chosen by Phase 1b findings), master-clock handling, timing policies with warnings, `SubtitleRenderer` timing, drift measurement, stale-audio guards.
@@ -147,3 +150,16 @@
 
 ## 6. Recommended next step
 **Single next action:** owner reviews and approves (or amends) the Phase 0 documents and answers the blocking questions Q6, Q7, Q9 (device nomination), Q11, Q13. Then Phase 1 per `PHASE1_PLAN.md`, followed immediately by Phase 1b per `DUAL_AUDIO_SPIKE_PLAN.md`.
+
+## 7. Pass-4 update (2026-11-22) — owner decisions D-18…D-30
+| Topic | Status | Effect on the roadmap |
+|---|---|---|
+| Phase 2 = media import + rights handling; Phase 3 = captions/subtitle pipeline | **DECIDED** (D-29) | Former audit item U-01 closed. |
+| Phases 2–3 may proceed if 1b is delayed | **DECIDED** (D-30) | Former audit item U-02 closed. Phase order and titles unchanged. |
+| Phases 4 and 5 blocked until G24 passes **with owner approval** | **DECIDED** (D-30, D-26) | Unchanged hard stop. G24 acceptance policy itself is **OPEN** (Q12). |
+| Build/test environment: Android phone + GitHub Actions | **DECIDED (selection)** · **NOT VERIFIED** (D-22) | Phase 1 W9/W10 must create and run the workflow; GitHub-hosted runners cannot run Android-device tests, so device tests (AT-DA, AT-SY, AT-FS, AT-SP, phone-side AT-NET) stay manual on the phone. |
+| Commercial intent | **DECIDED** intent · licences **NOT VERIFIED** (D-18) | Phases 4/5 must verify commercial eligibility; Phase 8/9 re-read YouTube API and hosting terms. |
+| Transport, storage budget, test-harness delivery | **PROPOSED** (Q11, ADR-026, ADR-025) | Not approved; nothing created or deployed. |
+
+**Gate summary after pass 4:** 24 gates, unchanged — G1 CLOSED-BY-DESIGN; G8 BLOCKED (selected environment not configured); 22 OPEN; **0 PASSED**.
+**Next single action:** unchanged — owner review and approval of Phase 0, plus the decisions listed in `OWNER_DECISIONS_PASS4_CHANGELOG.md` §6.
