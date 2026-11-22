@@ -1,6 +1,9 @@
 name: ci
 on:
+  push:
+    branches: [phase1-scaffold]
   pull_request:
+    branches: [phase1-scaffold]
   workflow_dispatch:
 permissions:
   contents: read

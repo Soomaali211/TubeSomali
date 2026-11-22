@@ -13,7 +13,7 @@ At the end of Phase 0 nothing has been tested, so **no gate is PASSED**.
 | 2026-11-20 rev 2 / reconciliation 1 | Added **G23**, **G24**; added status **BLOCKED**; G8 set to BLOCKED (this sandbox); G11 phase text updated (spike is now **mandatory Phase 1b**, not "earlier/optional"); G19 phase list now 2, 3, 6; G22 phase list now 1b, 2, 6, 10; G2/G3/G9 given explicit cross-references; release rule extended to G23/G24. No gate removed; no closing condition weakened. | Owner Final Reconciliation brief; consistency audit (CONSISTENCY_AUDIT.md). |
 | 2026-11-21 rev 2 / reconciliation 2 | **G15 test reference corrected** (AT-DA-10 → AT-DA-07). No other gate text changed; no gate status changed (24 gates: G1 CLOSED-BY-DESIGN, G8 BLOCKED in this sandbox, 22 OPEN, **0 PASSED**). | Pass-2 consistency audit (CONSISTENCY_AUDIT.md, finding C-01). |
 | 2026-11-22 rev 2 / owner decisions (pass 4) | **Annotations only** (appended in italics to the "Closes when" cell of G4, G5, G7, G8, G11, G19, G21, G23, G24) recording the owner's decisions D-18…D-30. **No gate added, removed, renumbered or re-statused; no closing condition weakened; 0 PASSED.** G8 text now records that the selected environment is not configured. | Owner pass-4 brief; DECISIONS §8.8–§8.9. |
-| 2026-11-22 Phase 1 | **Annotation only**: G8 and G23 note Phase 1 scaffold evidence (docs/PHASE1_REPORT.md). **No gate re-statused or weakened; 0 PASSED.** | Owner Phase 1 authorization. |
+| 2026-11-22 Phase 1 | **Annotation only**: G8 notes Phase 1 scaffold state (docs/PHASE1_REPORT.md); G23 text unchanged. **No gate re-statused or weakened; 0 PASSED.** | Owner Phase 1 authorization. |
 
 | ID | Gate | Mode | Phase | Status | Closes when (evidence required) |
 |---|---|---|---|---|---|
