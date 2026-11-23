@@ -7,8 +7,9 @@ Repo `Soomaali211/TubeSomali` (**GitHub reports it PUBLIC**; D-27 says the main 
 |---|---|---|
 | 45064699315 | 1699a2d | FAIL: frontend `tsc` lacked Node types (TS2307); backend secrets guard scanned a generated `.pytest_cache` (false positive) |
 | 45210299667 | 127bdb1 | FAIL: frontend Vitest, RTL cleanup missing (duplicate buttons); backend PASS |
-| **45210672417** | 59b285b | **PASS** both jobs: https://github.com/Soomaali211/TubeSomali/actions/runs/45210672417 |
-CI was re-run after each fix. The final commit that adds bundle-guard negative tests and these docs is re-run separately; see the hand-off message for its result.
+| 45210672417 | 59b285b | PASS both jobs |
+| **45211175256** | 1216d90 | **PASS** both jobs (adds bundle-guard negative tests): https://github.com/Soomaali211/TubeSomali/actions/runs/45211175256 |
+CI was re-run after each fix. Run 45211175256 is the final verified code run. Later commits that change only this report re-trigger CI; their results are not recorded here.
 
 Run 45210672417 steps (all success): backend — pinned install, `ruff check`, `ruff format --check`, `mypy` (18 files incl. `main.py`, routers), `pytest` (**52 passed, 0 skipped**, FastAPI tests included with `REQUIRE_FASTAPI=1`), no-ASR guard, secrets guard. Frontend — `npm ci` (276 packages), ESLint, full `tsc`, `node --test` core (3/3), guard tests (4/4), Vitest (3/3), `vite build`, bundle guard, boundary guard.
 
@@ -23,7 +24,7 @@ pytest 45 passed + 1 skipped (FastAPI absent); ruff PASS; mypy strict on non-Fas
 | W3 | Backend skeleton | **PASS** | CI mypy + 52 tests |
 | W4 | Access-control skeleton | **PASS** (scaffold level) | Default-deny, Host/Origin, 501 pairing tested locally and in CI. `DenyAllValidator` only; no real tokens |
 | W5 | Frontend skeleton | **PASS** | CI lint, tsc, Vitest 3/3, build. No browser/device run |
-| W6 | Boundary enforcement | **PASS** | Boundary and bundle guards pass clean and fail on synthetic violations (local `node --test` 7/7; CI re-run pending for the bundle negatives) |
+| W6 | Boundary enforcement | **PASS** | Boundary and bundle guards pass clean and fail on synthetic violations (`node --test` 7/7 locally and in run 45211175256) |
 | W7 | Guards | **PASS** (heuristic) | no-ASR: manifest/source only; secrets: regex heuristic; both fail on deliberate violations |
 | W8 | Interface stubs | **PASS** | All raise "not implemented" |
 | W9 | CI | **PASS** | Run 45210672417. CI cannot test Android devices. pip lock has no hashes |
