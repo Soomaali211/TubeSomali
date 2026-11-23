@@ -1,9 +1,11 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it } from 'vitest';
 import App from '../src/app/App.tsx';
 import { so } from '../src/locales/so.ts';
 
 describe('App shell (Phase 1)', () => {
+  afterEach(cleanup);
+
   it('shows the Somali home with two mode cards', () => {
     render(<App />);
     expect(screen.getByText(so.homeTitle)).toBeTruthy();
