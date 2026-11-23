@@ -51,3 +51,15 @@ jobs:
       - run: npm run build
       - run: npm run check:bundle
       - run: npm run check:boundaries
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t tubesomali-backend backend
+      - run: docker build -t tubesomali-frontend frontend
+      - name: Backend container must refuse to start (non-loopback bind without LAN mode; fail-closed, transport undecided Q11/Q16)
+        run: |
+          set +e
+          out=$(docker run --rm tubesomali-backend 2>&1); rc=$?
+          echo "exit=$rc"; echo "$out"
+          [ "$rc" -ne 0 ] && echo "$out" | grep -q "Configuration error"
