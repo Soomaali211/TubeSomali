@@ -1,5 +1,5 @@
 # Phase 1 Report — Repository Scaffold (verification pass)
-Repo `Soomaali211/TubeSomali` (**GitHub reports it PUBLIC**; D-27 says the main repo should be private — owner chose to push anyway). Branch `phase1-scaffold` (base `a939f47`, which is an ancestor). Only this branch was pushed. No force-push, no deployment, no release, Phase 1b+ not started.
+Repo `Soomaali211/TubeSomali` (**PUBLIC**; D-27 earlier said private — on 2026-11-24 the owner stated public is acceptable; D-27 text itself is unchanged). Branch `phase1-scaffold` (base `a939f47`, which is an ancestor). Only this branch was pushed. No force-push, no deployment, no release, Phase 1b+ not started.
 **Verdict: IMPLEMENTED — VERIFICATION INCOMPLETE.** Not COMPLETE: no `docker compose up` or serving container (blocked by Q11/Q16), no device test exists, security is scaffold-level only.
 
 ## CI evidence (GitHub Actions workflow `ci`, `.github/workflows/ci.yml`)
@@ -10,7 +10,7 @@ Repo `Soomaali211/TubeSomali` (**GitHub reports it PUBLIC**; D-27 says the main 
 | 45210672417 | 59b285b | PASS both jobs |
 | **45281942205** | 84b66da | **PASS** all three jobs incl. new `docker` job: https://github.com/Soomaali211/TubeSomali/actions/runs/45281942205 |
 | 45211175256 | 1216d90 | **PASS** both jobs (adds bundle-guard negative tests): https://github.com/Soomaali211/TubeSomali/actions/runs/45211175256 |
-CI was re-run after each fix. Run 45281942205 (commit 84b66da) is the final verified code run; it supersedes 45211175256. Later commits that change only this report re-trigger CI; their results are not recorded here.
+CI was re-run after each fix. Run 45281942205 (commit 84b66da) is the final verified code run (run 45282297670 on 08ab02b, docs-only changes, also green); it supersedes 45211175256. Later commits that change only this report re-trigger CI; their results are not recorded here.
 
 Run 45210672417 steps (all success): backend — pinned install, `ruff check`, `ruff format --check`, `mypy` (18 files incl. `main.py`, routers), `pytest` (**52 passed, 0 skipped**, FastAPI tests included with `REQUIRE_FASTAPI=1`), no-ASR guard, secrets guard. Frontend — `npm ci` (276 packages), ESLint, full `tsc`, `node --test` core (3/3), guard tests (4/4), Vitest (3/3), `vite build`, bundle guard, boundary guard.
 
@@ -21,7 +21,7 @@ pytest 45 passed + 1 skipped (FastAPI absent); ruff PASS; mypy strict on non-Fas
 | W | Item | Status | Evidence / limit |
 |---|---|---|---|
 | W1 | Dependency verification | **PARTIAL** | Locked versions recorded; npm licence fields read from lockfile; Python licences only partly read; no commercial approval (D-18). See DEPENDENCIES.md |
-| W2 | Repo init | **PASS** | Files exist; pushed. Repo visibility mismatch with D-27 flagged to owner |
+| W2 | Repo init | **PASS** | Files exist; pushed. Repo is public; owner accepted 2026-11-24 |
 | W3 | Backend skeleton | **PASS** | CI mypy + 52 tests |
 | W4 | Access-control skeleton | **PASS** (scaffold level) | Default-deny, Host/Origin, 501 pairing tested locally and in CI. `DenyAllValidator` only; no real tokens |
 | W5 | Frontend skeleton | **PASS** | CI lint, tsc, Vitest 3/3, build. No browser/device run |
@@ -40,7 +40,7 @@ pytest 45 passed + 1 skipped (FastAPI absent); ruff PASS; mypy strict on non-Fas
 - **Device tested:** none.
 - **Not tested:** `docker compose up`, container serving, runtime LAN behaviour, real browsers, uvicorn startup in CI, log-redaction beyond unit tests.
 - **Blocked:** G8 device access, G23 transport/pairing (Q11, Q16).
-- **Owner decision required:** repo visibility (public vs D-27), Q11, Q12, Q14, Q16, lockfile policy (pip lock is unhashed).
+- **Owner decision required:** ~~repo visibility~~ (RESOLVED 2026-11-24: public accepted), Q11, Q12, Q14, Q16, lockfile policy (pip lock is unhashed).
 
 ## Security (scaffold-level only; not an audit)
 Verified: default-deny outside `/health` and `/pairing`; Host and Origin allow-lists; no `*` origin; LAN mode refuses to start; invalid config fails closed; docs/openapi disabled; pairing returns 501; headers redacted; exception text not echoed. Not verified: transport encryption (undecided), real authentication, DoS, dependency CVEs, logging beyond unit tests.

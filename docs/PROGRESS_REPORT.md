@@ -115,5 +115,5 @@ Verdict **IMPLEMENTED — VERIFICATION INCOMPLETE**. Details: `PHASE1_REPORT.md`
 | Device tested | none |
 | Not tested | `docker compose up`, browsers, runtime LAN |
 | Blocked | G8 device access; G23 transport/pairing |
-| Owner decision required | repo is PUBLIC vs D-27; Q11, Q12, Q14, Q16; unhashed pip lock |
+| Owner decision required | Q11, Q12, Q14, Q16; unhashed pip lock; G8 status. (Repo public: accepted by owner 2026-11-24) |
 Acceptance tests: 160 NOT RUN. Gates: 0 PASSED. Phase 1b not started.
