@@ -16,12 +16,18 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - name: Install (pinned by requirements-dev.lock when present)
+      - name: Install (hash-checked lock if present, else version-pinned constraints)
         run: |
-          if [ -f requirements-dev.lock ]; then pip install -r requirements-dev.txt -c requirements-dev.lock; else echo "::warning::no lock; install not reproducible"; pip install -r requirements-dev.txt; fi
-      - name: Print generated lock (only when no lock is committed)
+          if [ -f requirements-dev.hashed.txt ]; then pip install --require-hashes -r requirements-dev.hashed.txt
+          elif [ -f requirements-dev.lock ]; then echo "::warning::no hashed lock"; pip install -r requirements-dev.txt -c requirements-dev.lock
+          else echo "::warning::no lock; install not reproducible"; pip install -r requirements-dev.txt; fi
+      - name: Generate hashed lock (only when none is committed; printed to log)
         run: |
-          if [ ! -f requirements-dev.lock ]; then echo "=====LOCK-BEGIN====="; pip freeze --exclude-editable; echo "=====LOCK-END====="; fi
+          if [ ! -f requirements-dev.hashed.txt ]; then
+            pip install pip-tools
+            pip-compile --generate-hashes --constraint requirements-dev.lock --strip-extras --quiet --no-header --no-annotate -o /tmp/hashed.txt requirements-dev.txt
+            echo "=====LOCK-BEGIN====="; cat /tmp/hashed.txt; echo "=====LOCK-END====="
+          fi
       - run: ruff check .
       - run: ruff format --check .
       - run: mypy
