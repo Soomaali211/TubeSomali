@@ -1,27 +1,47 @@
-# Phase 1 Report — Repository Scaffold
-Branch `phase1-scaffold` (from `a939f47`). **Not pushed. No CI run exists.** Phase 1b/2+ not started.
-Overall status: **PARTIALLY IMPLEMENTED — VERIFICATION INCOMPLETE** (FastAPI/httpx, npm packages, Docker and GitHub Actions unavailable here).
+# Phase 1 Report — Repository Scaffold (verification pass)
+Repo `Soomaali211/TubeSomali` (**GitHub reports it PUBLIC**; D-27 says the main repo should be private — owner chose to push anyway). Branch `phase1-scaffold` (base `a939f47`, which is an ancestor). Only this branch was pushed. No force-push, no deployment, no release, Phase 1b+ not started.
+**Verdict: IMPLEMENTED — VERIFICATION INCOMPLETE.** Not COMPLETE: Docker images were never built, no device test exists, security is scaffold-level only.
 
-## Checks run locally
-| ID | Check | Command | Result | Limitation |
-|---|---|---|---|---|
-| P1-01 | Backend unit tests (config, middleware via framework-free ASGI harness, AST boundaries, contracts, guards) | `cd backend && python3 -m pytest -q -p no:cacheprovider` | PASS: 45 passed, 1 skipped | The skipped module is the FastAPI app test |
-| P1-02 | FastAPI app tests | same | NOT RUN (fastapi/httpx not installed); CI sets `REQUIRE_FASTAPI=1` so a missing dependency fails | |
-| P1-03 | ruff lint + format | `ruff check .`; `ruff format --check .` | PASS | |
-| P1-04 | mypy strict | `python3 -m mypy --strict app/config.py app/errors.py app/contracts.py app/security` | PASS (7 files) | `main.py`, `routers/*` NOT type-checked |
-| P1-05 | No-ASR guard | `python3 tools/guards/check_no_asr.py` | PASS | Manifest/source only |
-| P1-06 | Secrets guard | `python3 tools/guards/check_secrets.py` | PASS | Heuristic, not an audit |
-| P1-07 | Boundary guard (clean tree) | `node tools/guards/check_boundaries.mjs` | PASS | |
-| P1-08 | Guards fail on deliberate violations | `pytest tests/test_guards.py`; `node --test tests/guards.test.mjs` (frontend) | PASS (backend within P1-01; frontend 4/4) | |
-| P1-09 | Frontend core tests | `node --test "src/core/*.test.ts"` | PASS 3/3 | |
-| P1-10 | Core type-check | `tsc --noEmit -p tsconfig.core.json` | PASS | TS 7.0.2, not the declared ^5.6 |
-| P1-11 | CI YAML parses | `yaml.safe_load` | PASS | Syntax only; not executed by GitHub |
-| P1-12 | ESLint, full `tsc`, Vitest, `vite build`, `check_bundle.mjs` | `npm run ...` | NOT RUN (no node_modules; network off) | check_bundle.mjs untested |
-| P1-13 | Docker build / compose | | NOT RUN | |
-| P1-14 | GitHub Actions run | | NOT RUN (not pushed) | |
+## CI evidence (GitHub Actions workflow `ci`, `.github/workflows/ci.yml`)
+| Run | Commit | Result |
+|---|---|---|
+| 45064699315 | 1699a2d | FAIL: frontend `tsc` lacked Node types (TS2307); backend secrets guard scanned a generated `.pytest_cache` (false positive) |
+| 45210299667 | 127bdb1 | FAIL: frontend Vitest, RTL cleanup missing (duplicate buttons); backend PASS |
+| **45210672417** | 59b285b | **PASS** both jobs: https://github.com/Soomaali211/TubeSomali/actions/runs/45210672417 |
+CI was re-run after each fix. The final commit that adds bundle-guard negative tests and these docs is re-run separately; see the hand-off message for its result.
 
-## Decisions not made
-Transport (Q11), LAN pairing, HTTP fallback, backend host (Q16): untouched. LAN mode refuses to start. Pairing returns 501.
+Run 45210672417 steps (all success): backend — pinned install, `ruff check`, `ruff format --check`, `mypy` (18 files incl. `main.py`, routers), `pytest` (**52 passed, 0 skipped**, FastAPI tests included with `REQUIRE_FASTAPI=1`), no-ASR guard, secrets guard. Frontend — `npm ci` (276 packages), ESLint, full `tsc`, `node --test` core (3/3), guard tests (4/4), Vitest (3/3), `vite build`, bundle guard, boundary guard.
 
-## Acceptance tests and gates
-All 160 acceptance tests stay **NOT RUN**: P1 checks are scaffold-level evidence, not the defined AT procedures. Gates unchanged (0 PASSED, G8 BLOCKED, G23 OPEN). No device tests run.
+## Local checks (sandbox, offline)
+pytest 45 passed + 1 skipped (FastAPI absent); ruff PASS; mypy strict on non-FastAPI modules PASS; core `tsc` PASS; `docker compose config` PASS (configuration/interpolation only).
+
+## W1–W12 (PHASE1_PLAN)
+| W | Item | Status | Evidence / limit |
+|---|---|---|---|
+| W1 | Dependency verification | **PARTIAL** | Locked versions recorded; npm licence fields read from lockfile; Python licences only partly read; no commercial approval (D-18). See DEPENDENCIES.md |
+| W2 | Repo init | **PASS** | Files exist; pushed. Repo visibility mismatch with D-27 flagged to owner |
+| W3 | Backend skeleton | **PASS** | CI mypy + 52 tests |
+| W4 | Access-control skeleton | **PASS** (scaffold level) | Default-deny, Host/Origin, 501 pairing tested locally and in CI. `DenyAllValidator` only; no real tokens |
+| W5 | Frontend skeleton | **PASS** | CI lint, tsc, Vitest 3/3, build. No browser/device run |
+| W6 | Boundary enforcement | **PASS** | Boundary and bundle guards pass clean and fail on synthetic violations (local `node --test` 7/7; CI re-run pending for the bundle negatives) |
+| W7 | Guards | **PASS** (heuristic) | no-ASR: manifest/source only; secrets: regex heuristic; both fail on deliberate violations |
+| W8 | Interface stubs | **PASS** | All raise "not implemented" |
+| W9 | CI | **PASS** | Run 45210672417. CI cannot test Android devices. pip lock has no hashes |
+| W10 | Docker/dev | **PARTIAL** | Compose config validates; **image build/run NOT RUN** (sandbox network off, no confirmed daemon) |
+| W11 | Docs sync | **PASS** | This report, DEPENDENCIES, GATES, PROGRESS_REPORT; Phase 0 text untouched |
+| W12 | Gate register | **PASS** | Annotation only; no status change |
+
+## Status split
+- **Implemented:** W2–W8, W11, W12; CI definition; stubs.
+- **Locally tested:** backend (non-FastAPI), core TS, guards, compose config.
+- **CI tested:** backend full, frontend full (run 45210672417).
+- **Device tested:** none.
+- **Not tested:** Docker build/run, runtime LAN behaviour, real browsers, uvicorn startup in CI, log-redaction beyond unit tests.
+- **Blocked:** G8 device access, G23 transport/pairing (Q11, Q16).
+- **Owner decision required:** repo visibility (public vs D-27), Q11, Q12, Q14, Q16, lockfile policy (pip lock is unhashed).
+
+## Security (scaffold-level only; not an audit)
+Verified: default-deny outside `/health` and `/pairing`; Host and Origin allow-lists; no `*` origin; LAN mode refuses to start; invalid config fails closed; docs/openapi disabled; pairing returns 501; headers redacted; exception text not echoed. Not verified: transport encryption (undecided), real authentication, DoS, dependency CVEs, logging beyond unit tests.
+
+## Tests and gates
+All 160 acceptance tests stay **NOT RUN** (original IDs/requirements untouched); P1 checks are scaffold evidence, not the defined procedures. Gates: 0 PASSED, G1 CLOSED-BY-DESIGN, G8 BLOCKED, 22 OPEN. CI now exists and has run, which satisfies one clause of G8, but device access remains unmet, so status is unchanged pending owner decision.

@@ -104,3 +104,16 @@ Phases 1, 1b, 2–11 in full: scaffold; dual-audio checkpoint on a physical Andr
 
 ## 9. The next single action
 **Owner reviews the Phase 0 documents and approves or amends them.** Pass 4 answered Q6 and Q7, so the decisions that now matter most are: **Q16/Q13** (is there a PC/host?), **Q11** (transport), **Q12** (G24 policy) and **Q9** (phone model/Android version). Q9 is needed before Phase 1b.
+
+## 10. Phase 1 status (2026-11-23, evidence-based)
+Verdict **IMPLEMENTED — VERIFICATION INCOMPLETE**. Details: `PHASE1_REPORT.md`.
+| Category | State |
+|---|---|
+| Implemented | backend and frontend scaffold, guards, stubs, CI workflow, lockfiles |
+| Locally tested | non-FastAPI backend, core TS, guards, compose config |
+| CI tested | full backend and frontend, run 45210672417 (green after two fix rounds) |
+| Device tested | none |
+| Not tested | Docker build/run, browsers, runtime LAN |
+| Blocked | G8 device access; G23 transport/pairing |
+| Owner decision required | repo is PUBLIC vs D-27; Q11, Q12, Q14, Q16; unhashed pip lock |
+Acceptance tests: 160 NOT RUN. Gates: 0 PASSED. Phase 1b not started.

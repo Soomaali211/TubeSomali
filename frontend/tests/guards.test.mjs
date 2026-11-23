@@ -30,3 +30,23 @@ test('fails when YouTube mode uses AudioContext', () => {
 test('fails when core imports TTS', () => {
   assert.equal(run(tree({ dir: 'core', name: 'x.ts' }, "import { t } from '../tts/voice.ts';\n")), 1);
 });
+
+// Bundle guard negative tests (synthetic dist directories).
+const bundle = resolve(import.meta.dirname, '../../tools/guards/check_bundle.mjs');
+const runBundle = (files) => {
+  const dist = mkdtempSync(join(tmpdir(), 'bd-'));
+  mkdirSync(join(dist, 'assets'), { recursive: true });
+  for (const [n, c] of Object.entries(files)) writeFileSync(join(dist, 'assets', n), c);
+  return spawnSync('node', [bundle, '--dist', dist], { encoding: 'utf8' }).status;
+};
+const M = 'tubesomali:authorized:x';
+
+test('bundle guard passes on a correct synthetic build', () => {
+  assert.equal(runBundle({ 'mode-youtube-a.js': 'ok', 'mode-authorized-a.js': M, 'index-a.js': 'ok' }), 0);
+});
+test('bundle guard fails when authorized ids leak into the YouTube chunk', () => {
+  assert.equal(runBundle({ 'mode-youtube-a.js': M, 'mode-authorized-a.js': M }), 1);
+});
+test('bundle guard fails when a chunk is missing (no vacuous pass)', () => {
+  assert.equal(runBundle({ 'mode-authorized-a.js': M }), 1);
+});
