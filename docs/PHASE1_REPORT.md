@@ -8,8 +8,9 @@ Repo `Soomaali211/TubeSomali` (**GitHub reports it PUBLIC**; D-27 says the main 
 | 45064699315 | 1699a2d | FAIL: frontend `tsc` lacked Node types (TS2307); backend secrets guard scanned a generated `.pytest_cache` (false positive) |
 | 45210299667 | 127bdb1 | FAIL: frontend Vitest, RTL cleanup missing (duplicate buttons); backend PASS |
 | 45210672417 | 59b285b | PASS both jobs |
-| **45211175256** | 1216d90 | **PASS** both jobs (adds bundle-guard negative tests): https://github.com/Soomaali211/TubeSomali/actions/runs/45211175256 |
-CI was re-run after each fix. Run 45211175256 is the final verified code run. Later commits that change only this report re-trigger CI; their results are not recorded here.
+| **45281942205** | 84b66da | **PASS** all three jobs incl. new `docker` job: https://github.com/Soomaali211/TubeSomali/actions/runs/45281942205 |
+| 45211175256 | 1216d90 | **PASS** both jobs (adds bundle-guard negative tests): https://github.com/Soomaali211/TubeSomali/actions/runs/45211175256 |
+CI was re-run after each fix. Run 45281942205 (commit 84b66da) is the final verified code run; it supersedes 45211175256. Later commits that change only this report re-trigger CI; their results are not recorded here.
 
 Run 45210672417 steps (all success): backend — pinned install, `ruff check`, `ruff format --check`, `mypy` (18 files incl. `main.py`, routers), `pytest` (**52 passed, 0 skipped**, FastAPI tests included with `REQUIRE_FASTAPI=1`), no-ASR guard, secrets guard. Frontend — `npm ci` (276 packages), ESLint, full `tsc`, `node --test` core (3/3), guard tests (4/4), Vitest (3/3), `vite build`, bundle guard, boundary guard.
 
@@ -28,7 +29,7 @@ pytest 45 passed + 1 skipped (FastAPI absent); ruff PASS; mypy strict on non-Fas
 | W7 | Guards | **PASS** (heuristic) | no-ASR: manifest/source only; secrets: regex heuristic; both fail on deliberate violations |
 | W8 | Interface stubs | **PASS** | All raise "not implemented" |
 | W9 | CI | **PASS** | Run 45210672417. CI cannot test Android devices. pip lock has no hashes |
-| W10 | Docker/dev | **PARTIAL** | Compose config validates; **image build/run NOT RUN** (sandbox network off, no confirmed daemon) |
+| W10 | Docker/dev | **PARTIAL** | CI run 45281942205: both images **build** (PASS); backend container **refuses to start** with a non-loopback bind and no LAN mode, exit 1, "Configuration error…" (fail-closed PASS). A serving backend container is **BLOCKED** by undecided transport/host (Q11, Q16), since LAN mode can never be ready in Phase 1. `docker compose up` was NOT RUN; compose config validated locally |
 | W11 | Docs sync | **PASS** | This report, DEPENDENCIES, GATES, PROGRESS_REPORT; Phase 0 text untouched |
 | W12 | Gate register | **PASS** | Annotation only; no status change |
 
@@ -37,7 +38,7 @@ pytest 45 passed + 1 skipped (FastAPI absent); ruff PASS; mypy strict on non-Fas
 - **Locally tested:** backend (non-FastAPI), core TS, guards, compose config.
 - **CI tested:** backend full, frontend full (run 45210672417).
 - **Device tested:** none.
-- **Not tested:** Docker build/run, runtime LAN behaviour, real browsers, uvicorn startup in CI, log-redaction beyond unit tests.
+- **Not tested:** `docker compose up`, container serving, runtime LAN behaviour, real browsers, uvicorn startup in CI, log-redaction beyond unit tests.
 - **Blocked:** G8 device access, G23 transport/pairing (Q11, Q16).
 - **Owner decision required:** repo visibility (public vs D-27), Q11, Q12, Q14, Q16, lockfile policy (pip lock is unhashed).
 
