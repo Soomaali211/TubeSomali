@@ -9,7 +9,7 @@ import re
 import sys
 from pathlib import Path
 
-SKIP_DIRS = {".git", "node_modules", "dist", "__pycache__", ".venv", ".mypy_cache", ".ruff_cache"}
+SKIP_DIRS = {".git", "node_modules", "dist", "__pycache__", ".venv", ".mypy_cache", ".ruff_cache", ".pytest_cache"}
 PATTERNS = {
     "private key block": re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"),
     "GitHub token": re.compile(r"\bgh[pousr]_[A-Za-z0-9]{30,}\b"),
