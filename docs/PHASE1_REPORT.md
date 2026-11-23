@@ -1,6 +1,6 @@
 # Phase 1 Report — Repository Scaffold (verification pass)
 Repo `Soomaali211/TubeSomali` (**GitHub reports it PUBLIC**; D-27 says the main repo should be private — owner chose to push anyway). Branch `phase1-scaffold` (base `a939f47`, which is an ancestor). Only this branch was pushed. No force-push, no deployment, no release, Phase 1b+ not started.
-**Verdict: IMPLEMENTED — VERIFICATION INCOMPLETE.** Not COMPLETE: Docker images were never built, no device test exists, security is scaffold-level only.
+**Verdict: IMPLEMENTED — VERIFICATION INCOMPLETE.** Not COMPLETE: no `docker compose up` or serving container (blocked by Q11/Q16), no device test exists, security is scaffold-level only.
 
 ## CI evidence (GitHub Actions workflow `ci`, `.github/workflows/ci.yml`)
 | Run | Commit | Result |
