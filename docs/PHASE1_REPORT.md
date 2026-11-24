@@ -28,7 +28,7 @@ pytest 45 passed + 1 skipped (FastAPI absent); ruff PASS; mypy strict on non-Fas
 | W6 | Boundary enforcement | **PASS** | Boundary and bundle guards pass clean and fail on synthetic violations (`node --test` 7/7 locally and in run 45211175256) |
 | W7 | Guards | **PASS** (heuristic) | no-ASR: manifest/source only; secrets: regex heuristic; both fail on deliberate violations |
 | W8 | Interface stubs | **PASS** | All raise "not implemented" |
-| W9 | CI | **PASS** | Run 45210672417. CI cannot test Android devices. pip lock has no hashes |
+| W9 | CI | **PASS** | Run 45210672417. CI cannot test Android devices. pip install is hash-checked (`--require-hashes`) |
 | W10 | Docker/dev | **PARTIAL** | CI run 45281942205: both images **build** (PASS); backend container **refuses to start** with a non-loopback bind and no LAN mode, exit 1, "Configuration error…" (fail-closed PASS). A serving backend container is **BLOCKED** by undecided transport/host (Q11, Q16), since LAN mode can never be ready in Phase 1. `docker compose up` was NOT RUN; compose config validated locally |
 | W11 | Docs sync | **PASS** | This report, DEPENDENCIES, GATES, PROGRESS_REPORT; Phase 0 text untouched |
 | W12 | Gate register | **PASS** | Annotation only; no status change |
@@ -40,7 +40,7 @@ pytest 45 passed + 1 skipped (FastAPI absent); ruff PASS; mypy strict on non-Fas
 - **Device tested:** none.
 - **Not tested:** `docker compose up`, container serving, runtime LAN behaviour, real browsers, uvicorn startup in CI, log-redaction beyond unit tests.
 - **Blocked:** G8 device access, G23 transport/pairing (Q11, Q16).
-- **Owner decision required:** ~~repo visibility~~ (RESOLVED 2026-11-24: public accepted), Q11, Q12, Q14, Q16, lockfile policy (pip lock is unhashed).
+- **Owner decision required:** ~~repo visibility~~ (RESOLVED 2026-11-24: public accepted), Q11, Q12, Q14, Q16, ~~pip lock hashes~~ (RESOLVED: hashed lock added; owner approved 2026-11-24), G8 kept BLOCKED (owner: okay).
 
 ## Security (scaffold-level only; not an audit)
 Verified: default-deny outside `/health` and `/pairing`; Host and Origin allow-lists; no `*` origin; LAN mode refuses to start; invalid config fails closed; docs/openapi disabled; pairing returns 501; headers redacted; exception text not echoed. Not verified: transport encryption (undecided), real authentication, DoS, dependency CVEs, logging beyond unit tests.
