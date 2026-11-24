@@ -116,7 +116,7 @@ Verdict **IMPLEMENTED — VERIFICATION INCOMPLETE**. Details: `PHASE1_REPORT.md`
 | Not tested | `docker compose up`, browsers, runtime LAN |
 | Blocked | G8 device access; G23 transport/pairing |
 | Owner decision required | Q11, Q12, Q14, Q16. (G8 kept BLOCKED, pip lock hashed: owner 2026-11-24.) (Repo public: accepted by owner 2026-11-24) |
-Acceptance tests: 160 NOT RUN. Gates: 0 PASSED. Phase 1b not started.
+Acceptance tests: 160 NOT RUN. Gates: 0 PASSED. Phase 1b: preparation only (see §11); no AT-SP test run.
 
 ## 11. Phase 1b preparation (2026-11-24; owner authorized preparation only)
 Branch `phase1b-prep`. Details: `docs/spike/PHASE_1B_PREP.md`.
