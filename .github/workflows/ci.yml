@@ -69,3 +69,26 @@ jobs:
           out=$(docker run --rm tubesomali-backend 2>&1); rc=$?
           echo "exit=$rc"; echo "$out"
           [ "$rc" -ne 0 ] && echo "$out" | grep -q "Configuration error"
+  spike:
+    # Phase 1b PREP only. Checks the harness code and synthetic fixtures. This is NOT an AT-SP execution and
+    # NOT device evidence: headless desktop Chromium cannot show Android audio behaviour.
+    runs-on: ubuntu-latest
+    env: { REQUIRE_FFMPEG: "1" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "22" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: pip install pytest==9.2.0 ruff==0.17.6
+      - run: ruff check --config backend/pyproject.toml spike
+      - run: ruff format --config backend/pyproject.toml --check spike
+      - run: node --test spike/tests/core.test.mjs
+      - run: python -m pytest spike/tests/test_fixtures.py -q -p no:cacheprovider
+      - run: python spike/fixtures/generate.py --out spike/fixtures/out --minutes 0.5
+      - name: Headless software smoke (Chromium)
+        run: |
+          npm install --no-save --prefix /tmp/pw playwright@1.59.0
+          npx --prefix /tmp/pw playwright install --with-deps chromium
+          NODE_PATH=/tmp/pw/node_modules node spike/tests/smoke.mjs

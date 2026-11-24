@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TubeSomali Phase 1b dual-audio spike (test tool)</title>
+<style>
+  *{box-sizing:border-box} body{font:15px system-ui,sans-serif;margin:0;padding:12px;max-width:42rem}
+  #stage{background:#000} video{width:100%;display:block}
+  fieldset{margin:10px 0;padding:8px} label{display:block;margin:6px 0}
+  button,select,input[type=text]{min-height:44px;font:inherit} button{margin:3px 3px 3px 0}
+  input[type=range]{width:100%} pre{max-height:12rem;overflow:auto;background:#eee;padding:6px;font-size:12px}
+  .warn{background:#fff3cd;padding:6px}
+</style>
+</head>
+<body>
+<h1>Phase 1b spike (test tool)</h1>
+<p class="warn">Software-level (T1) logging only. This page does not prove acoustic sync or real Bluetooth latency. Synthetic fixtures only: no personal media, no network services. Nothing here is a test result until a person runs it and records the environment.</p>
+
+<div id="stage"><video id="v" playsinline controls preload="auto"></video></div>
+<audio id="a" preload="auto"></audio>
+
+<fieldset><legend>1. Start (user gesture required, F16)</legend>
+  <label>Fixture base path <input id="fx" type="text" value="fixtures/out"></label>
+  <label>Video file <select id="vfile"><option>fx-vid.mp4</option><option>fx-vid.webm</option></select></label>
+  <label>Approach <select id="approach"><option value="B">B: pre-rendered track, second media element</option><option value="A">A: per-cue AudioBufferSourceNode scheduling</option></select></label>
+  <button id="start">Load and start audio engine</button> <span id="state">not started</span>
+</fieldset>
+
+<fieldset><legend>2. Gains (0-100 %)</legend>
+  <label>Original <input id="g-orig" type="range" min="0" max="100" value="100"></label>
+  <label>Somali <input id="g-som" type="range" min="0" max="100" value="100"></label>
+  <label>Master <input id="g-master" type="range" min="0" max="100" value="100"></label>
+  <label>Curve <select id="curve"><option value="linear">linear</option><option value="perceptual">perceptual (squared)</option></select></label>
+  <label>Transition <select id="method"><option value="direct">direct assignment</option><option value="target">setTargetAtTime</option><option value="ramp">linear ramp</option></select></label>
+  <label>Time constant / ramp (s) <input id="tc" type="text" value="0.02" inputmode="decimal"></label>
+</fieldset>
+
+<fieldset><legend>3. Transport</legend>
+  <button id="play">Play</button><button id="pause">Pause</button>
+  <button id="back10">-10 s</button><button id="fwd10">+10 s</button><button id="rnd">Random seek</button>
+  <label>Speed <select id="rate"><option>0.75</option><option selected>1</option><option>1.25</option><option>1.5</option></select></label>
+  <button id="fs">Fullscreen container</button>
+</fieldset>
+
+<fieldset><legend>4. Environment record (SPIKE_PLAN section 8)</legend>
+  <label>Tester <input id="e-tester" type="text"></label>
+  <label>Device make/model <input id="e-device" type="text"></label>
+  <label>Android version / patch <input id="e-android" type="text"></label>
+  <label>Browser + version <input id="e-browser" type="text"></label>
+  <label>Output route (speaker/wired/BT model) <input id="e-route" type="text"></label>
+  <label>Power mode / battery saver <input id="e-power" type="text"></label>
+  <label>Measurement tiers + capture method <input id="e-tiers" type="text" value="T1"></label>
+  <label>Notes <input id="e-notes" type="text"></label>
+  <button id="export">Export JSON</button>
+</fieldset>
+<pre id="log">(log)</pre>
+<script type="module" src="app.js"></script>
+</body>
+</html>

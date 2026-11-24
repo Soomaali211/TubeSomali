@@ -117,3 +117,14 @@ Verdict **IMPLEMENTED — VERIFICATION INCOMPLETE**. Details: `PHASE1_REPORT.md`
 | Blocked | G8 device access; G23 transport/pairing |
 | Owner decision required | Q11, Q12, Q14, Q16. (G8 kept BLOCKED, pip lock hashed: owner 2026-11-24.) (Repo public: accepted by owner 2026-11-24) |
 Acceptance tests: 160 NOT RUN. Gates: 0 PASSED. Phase 1b not started.
+
+## 11. Phase 1b preparation (2026-11-24; owner authorized preparation only)
+Branch `phase1b-prep`. Details: `docs/spike/PHASE_1B_PREP.md`.
+| Category | State |
+|---|---|
+| Implemented | spike harness (A and B), fixture generator, helpers, CI job definition |
+| Locally tested | helpers 8/8, fixtures 4/4, headless-Chromium smoke 12/12 (software only) |
+| Device tested | none |
+| Blocked | AT-SP-01...14 execution (Q9, phone, tester), T2 method, delivery route |
+| Owner decision required | Q9, Q12, delivery route/ADR-025 authorization |
+AT-SP tests: 14 NOT RUN. G24 OPEN. Phase 1b is **not** complete.
