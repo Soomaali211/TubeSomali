@@ -8,9 +8,10 @@ Repo `Soomaali211/TubeSomali` (**PUBLIC**; D-27 earlier said private — on 2026
 | 45064699315 | 1699a2d | FAIL: frontend `tsc` lacked Node types (TS2307); backend secrets guard scanned a generated `.pytest_cache` (false positive) |
 | 45210299667 | 127bdb1 | FAIL: frontend Vitest, RTL cleanup missing (duplicate buttons); backend PASS |
 | 45210672417 | 59b285b | PASS both jobs |
-| **45281942205** | 84b66da | **PASS** all three jobs incl. new `docker` job: https://github.com/Soomaali211/TubeSomali/actions/runs/45281942205 |
+| **45293534665** | 5a4ee69 | **PASS** all three jobs; backend installs with `pip install --require-hashes` (hashed lock, 28 packages, 436 hashes): https://github.com/Soomaali211/TubeSomali/actions/runs/45293534665 |
+| 45281942205 | 84b66da | **PASS** all three jobs incl. new `docker` job: https://github.com/Soomaali211/TubeSomali/actions/runs/45281942205 |
 | 45211175256 | 1216d90 | **PASS** both jobs (adds bundle-guard negative tests): https://github.com/Soomaali211/TubeSomali/actions/runs/45211175256 |
-CI was re-run after each fix. Run 45281942205 (commit 84b66da) is the final verified code run (run 45282297670 on 08ab02b, docs-only changes, also green); it supersedes 45211175256. Later commits that change only this report re-trigger CI; their results are not recorded here.
+CI was re-run after each fix. Run 45293534665 (commit 5a4ee69) is the final verified run; it supersedes the earlier green runs. Later commits that change only this report re-trigger CI; their results are not recorded here.
 
 Run 45210672417 steps (all success): backend — pinned install, `ruff check`, `ruff format --check`, `mypy` (18 files incl. `main.py`, routers), `pytest` (**52 passed, 0 skipped**, FastAPI tests included with `REQUIRE_FASTAPI=1`), no-ASR guard, secrets guard. Frontend — `npm ci` (276 packages), ESLint, full `tsc`, `node --test` core (3/3), guard tests (4/4), Vitest (3/3), `vite build`, bundle guard, boundary guard.
 
@@ -20,7 +21,7 @@ pytest 45 passed + 1 skipped (FastAPI absent); ruff PASS; mypy strict on non-Fas
 ## W1–W12 (PHASE1_PLAN)
 | W | Item | Status | Evidence / limit |
 |---|---|---|---|
-| W1 | Dependency verification | **PARTIAL** | Locked versions recorded; npm licence fields read from lockfile; Python licences only partly read; no commercial approval (D-18). See DEPENDENCIES.md |
+| W1 | Dependency verification | **PARTIAL** | Locked and hashed (pip) versions recorded; npm licence fields read from lockfile; Python licences only partly read; no commercial approval (D-18). See DEPENDENCIES.md |
 | W2 | Repo init | **PASS** | Files exist; pushed. Repo is public; owner accepted 2026-11-24 |
 | W3 | Backend skeleton | **PASS** | CI mypy + 52 tests |
 | W4 | Access-control skeleton | **PASS** (scaffold level) | Default-deny, Host/Origin, 501 pairing tested locally and in CI. `DenyAllValidator` only; no real tokens |
@@ -28,7 +29,7 @@ pytest 45 passed + 1 skipped (FastAPI absent); ruff PASS; mypy strict on non-Fas
 | W6 | Boundary enforcement | **PASS** | Boundary and bundle guards pass clean and fail on synthetic violations (`node --test` 7/7 locally and in run 45211175256) |
 | W7 | Guards | **PASS** (heuristic) | no-ASR: manifest/source only; secrets: regex heuristic; both fail on deliberate violations |
 | W8 | Interface stubs | **PASS** | All raise "not implemented" |
-| W9 | CI | **PASS** | Run 45210672417. CI cannot test Android devices. pip install is hash-checked (`--require-hashes`) |
+| W9 | CI | **PASS** | Run 45293534665. CI cannot test Android devices. pip install is hash-checked (`--require-hashes`) |
 | W10 | Docker/dev | **PARTIAL** | CI run 45281942205: both images **build** (PASS); backend container **refuses to start** with a non-loopback bind and no LAN mode, exit 1, "Configuration error…" (fail-closed PASS). A serving backend container is **BLOCKED** by undecided transport/host (Q11, Q16), since LAN mode can never be ready in Phase 1. `docker compose up` was NOT RUN; compose config validated locally |
 | W11 | Docs sync | **PASS** | This report, DEPENDENCIES, GATES, PROGRESS_REPORT; Phase 0 text untouched |
 | W12 | Gate register | **PASS** | Annotation only; no status change |
@@ -36,7 +37,7 @@ pytest 45 passed + 1 skipped (FastAPI absent); ruff PASS; mypy strict on non-Fas
 ## Status split
 - **Implemented:** W2–W8, W11, W12; CI definition; stubs.
 - **Locally tested:** backend (non-FastAPI), core TS, guards, compose config.
-- **CI tested:** backend full, frontend full (run 45210672417).
+- **CI tested:** backend (hash-checked install), frontend, Docker image builds and fail-closed container start (run 45293534665).
 - **Device tested:** none.
 - **Not tested:** `docker compose up`, container serving, runtime LAN behaviour, real browsers, uvicorn startup in CI, log-redaction beyond unit tests.
 - **Blocked:** G8 device access, G23 transport/pairing (Q11, Q16).

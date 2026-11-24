@@ -111,7 +111,7 @@ Verdict **IMPLEMENTED — VERIFICATION INCOMPLETE**. Details: `PHASE1_REPORT.md`
 |---|---|
 | Implemented | backend and frontend scaffold, guards, stubs, CI workflow, lockfiles |
 | Locally tested | non-FastAPI backend, core TS, guards, compose config |
-| CI tested | backend, frontend and Docker image builds + fail-closed container start, run 45281942205 (green after two fix rounds) |
+| CI tested | backend, frontend and Docker image builds + fail-closed container start, run 45293534665 (green after two fix rounds) |
 | Device tested | none |
 | Not tested | `docker compose up`, browsers, runtime LAN |
 | Blocked | G8 device access; G23 transport/pairing |
